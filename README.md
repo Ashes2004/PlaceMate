@@ -1,36 +1,40 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# 🧭 PlaceMate – Your Placement Companion
 
-## Getting Started
+**PlaceMate** is a full-stack web application built using [Next.js](https://nextjs.org), [Tailwind CSS](https://tailwindcss.com), and [Firebase](https://firebase.google.com). It serves as a placement companion platform for students to share placement experiences, track their preparation, and access curated coding problems uploaded by admins.
 
-First, run the development server:
+---
+
+## 🚀 Features
+
+### 👨‍🎓 For Students
+- 📌 Share placement experiences (categorized by college, company, CTC, department)
+- 🔍 Browse experiences by **college name**, with filters for company, department, and package
+- 🧠 Access daily coding problems (added by admin)
+- 📅 Personalized dashboard with activity stats and tips
+
+### 🛠️ For Admins
+- 🔐 Secure login with Firebase Auth
+- 🧾 Upload coding problems with title, link, tags, and difficulty
+- 🔍 View all uploaded problems in a dashboard
+
+---
+
+## 🏗️ Tech Stack
+
+- **Frontend:** [Next.js](https://nextjs.org) + [Tailwind CSS](https://tailwindcss.com)
+- **Backend:** [Firebase](https://firebase.google.com)
+  - Firebase Auth (Role-based access)
+  - Firestore (for storage)
+- **Form Validation:** [React Hook Form](https://react-hook-form.com)
+- **Rich Text Editor:** [React Quill](https://github.com/zenoamaro/react-quill)
+
+---
+
+## ⚙️ Getting Started
+
+Clone the repo and install dependencies:
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
-
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+git clone https://github.com/your-username/placemate.git
+cd placemate
+npm install
