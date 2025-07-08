@@ -2,13 +2,13 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Home, Search, Code, Trophy, User } from "lucide-react";
-
+import { Home, Search, Code,User , SheetIcon } from "lucide-react";
+ 
 const navLinks = [
   { label: "Home", icon: Home, href: "/" },
   { label: "Explore", icon: Search, href: "/explore" },
   { label: "Practice", icon: Code, href: "/practice" },
-  { label: "Compete", icon: Trophy, href: "/compete" },
+  { label: "Resume", icon:SheetIcon , href: "/resumeReview" },
   { label: "Profile", icon: User, href: "/profile" },
 ];
 

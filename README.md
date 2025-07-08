@@ -35,6 +35,6 @@
 Clone the repo and install dependencies:
 
 ```bash
-git clone https://github.com/your-username/placemate.git
+git clone https://github.com/Ashes2004/placemate.git
 cd placemate
 npm install
