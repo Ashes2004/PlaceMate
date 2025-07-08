@@ -184,7 +184,7 @@ const PlacementStories = () => {
         </div>
 
         {/* Add Story Button */}
-        <div className="flex justify-center">
+        <div className="flex justify-center pb-16 md:pb-0">
           <button className="bg-blue-500 hover:bg-blue-600 text-white px-6 py-3 rounded-lg flex items-center space-x-2">
             <Plus size={20} />
             <span className="font-medium">Add Story</span>
