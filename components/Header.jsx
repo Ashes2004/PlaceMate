@@ -3,7 +3,7 @@
 
 import React from "react";
 import Link from "next/link";
-import PlacementChatWidget from "./PlacementChatWidget";
+
 
 
 export default function Header() {
@@ -15,6 +15,7 @@ export default function Header() {
         <Link href="/explore" className= "hover:text-black hover:font-bold">Explore</Link>
         <Link href="/resumeReview" className= "hover:text-black hover:font-bold">Resume</Link>
         <Link href="/challenges" className= "hover:text-black hover:font-bold">Challenges</Link>
+        <Link href="/gdg-events/dashboard" className= "hover:text-black hover:font-bold">GDG-TMSL</Link>
 
       </nav>
       <div className="flex items-center gap-4">
@@ -29,7 +30,7 @@ export default function Header() {
         </div>
       </div>
 
-      <PlacementChatWidget/>
+   
     </header>
   );
 }

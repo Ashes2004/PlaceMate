@@ -47,7 +47,7 @@ export default function TipOfTheDay() {
   return (
     <div>
       <h3 className="font-bold text-lg mb-4">Tip of the Day</h3>
-      <div className="rounded-xl overflow-hidden relative h-48 sm:h-56 lg:h-64 shadow-md">
+      <div className="rounded-xl overflow-hidden relative  h-48 sm:h-56 lg:h-64 shadow-md z-10 ">
         <img
           src={tipData.image}
           alt="Tip background"

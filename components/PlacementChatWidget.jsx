@@ -178,7 +178,7 @@ const PlacementChatWidget = () => {
         }
       `}</style>
 
-      <div className="fixed bottom-4 right-4 z-50">
+      <div className="fixed bottom-4 right-4 z-[999]">
         {/* Chat Window */}
         {isOpen && (
           <div

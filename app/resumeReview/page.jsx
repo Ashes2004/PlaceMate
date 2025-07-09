@@ -13,6 +13,7 @@ import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import rehypeRaw from "rehype-raw";
 import Footer from "@/components/Footer";
+import PlacementChatWidget from "@/components/PlacementChatWidget";
 export default function ResumeReviewer() {
   const [file, setFile] = useState(null);
   const [isAnalyzing, setIsAnalyzing] = useState(false);
@@ -27,6 +28,10 @@ export default function ResumeReviewer() {
       alert("Please upload a PDF file");
     }
   };
+
+ const setResumeScore = (score)=>{
+    localStorage.setItem('ResumeScore' , score);
+ }
 
   const handleDrag = (e) => {
     e.preventDefault();
@@ -123,7 +128,7 @@ ${resumeText}
       const score = scoreMatch
         ? parseInt(scoreMatch[1])
         : Math.floor(Math.random() * 20) + 80;
-
+       setResumeScore(score);
       // ✅ FIX HERE
       setAnalysis({
         feedback: aiText,
@@ -302,6 +307,7 @@ ${resumeText}
           </div>
         )}
       </div>
+      <PlacementChatWidget/>
       <Footer/>
     </div>
   );

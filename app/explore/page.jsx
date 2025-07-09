@@ -1,34 +1,84 @@
-"use client"
-import React, { useState } from 'react';
-import { ArrowLeft, Search, ChevronDown, Plus } from 'lucide-react';
-import Header from '@/components/Header';
-import Footer from '@/components/Footer';
+"use client";
 
-// Story Card Component
-const StoryCard = ({ type, title, description, image , ctc , year }) => (
-  <div className="flex items-start justify-between border-2 border-gray-400 rounded-xl p-3 shadow-sm hover:shadow-md transition mb-6 max-w-4xl w-full overflow-hidden">
-    <div className="flex-1 pr-2">
-      
-      <div className="text-sm text-gray-600 font-medium mb-1">{type}</div>
-      <h3 className="text-md font-semibold text-gray-900 mb-1">{title}</h3>
-      <div className='flex gap-4'>
-      <p className="text-gray-400 text-sm leading-relaxed">{ctc}</p>
-      <p className="text-gray-400 text-sm leading-relaxed">{year}</p>
+import React, { useState, useEffect } from 'react';
+import { ArrowLeft, Search, ChevronDown, Plus, Eye, Building, Calendar, MapPin, Briefcase, DollarSign } from 'lucide-react';
+import Header from '@/components/Header';
+import { db } from "@/utils/firebase";
+import { collection, getDocs } from "firebase/firestore";
+
+
+// Utility function to normalize dropdown options (case-insensitive + most capitalized)
+const getCapitalizedOptions = (array) => {
+  const map = new Map();
+  array.forEach((val) => {
+    if (!val) return;
+    const lower = val.toLowerCase();
+    if (!map.has(lower) || val === val.toUpperCase()) {
+      map.set(lower, val);
+    }
+  });
+  return Array.from(map.values());
+};
+
+// Simplified Story Card Component
+const StoryCard = ({ id, role, company, ctc, year, onCampus, type, description }) => (
+  <div className="bg-white rounded-lg shadow-sm border border-gray-200 hover:shadow-md transition-shadow duration-200 overflow-hidden">
+    {/* Header */}
+    <div className="p-6 border-b border-gray-100">
+      <div className="flex items-start justify-between mb-3">
+        <div className="flex-1">
+          <h3 className="text-xl font-semibold text-gray-900 mb-1">{role}</h3>
+          <p className="text-gray-600 flex items-center">
+            <Building size={16} className="mr-1" />
+            {company}
+          </p>
+        </div>
+        <span className="bg-blue-100 text-blue-700 text-xs font-medium px-3 py-1 rounded-full">
+          {type}
+        </span>
       </div>
-      <p className="text-gray-600 text-[12px] leading-relaxed">{description}</p>
     </div>
-    <div className="w-24 h-full rounded-lg overflow-hidden flex-shrink-0">
-      <img 
-        src={image} 
-        alt={title}
-        className="w-full h-full object-cover"
-      />
+
+    {/* Content */}
+    <div className="p-6">
+      {/* Key Details */}
+      <div className="grid grid-cols-2 gap-4 mb-4">
+        <div className="flex items-center text-sm text-gray-600">
+          <DollarSign size={16} className="mr-2 text-green-600" />
+          <span className="font-medium">{ctc || 'Not disclosed'}</span>
+        </div>
+        <div className="flex items-center text-sm text-gray-600">
+          <Calendar size={16} className="mr-2 text-blue-600" />
+          <span className="font-medium">{year}</span>
+        </div>
+        <div className="flex items-center text-sm text-gray-600 col-span-2">
+          <MapPin size={16} className="mr-2 text-red-600" />
+          <span className="font-medium">{onCampus}</span>
+        </div>
+      </div>
+
+      {/* Description */}
+      {description && (
+        <p className="text-gray-700 text-sm line-clamp-3 mb-4 leading-relaxed">
+          {description}
+        </p>
+      )}
+
+      {/* Action Button */}
+      <div className="flex justify-end">
+        <button 
+          onClick={() => window.location.href = `/interviewExperience/${id}`}
+          className="inline-flex items-center space-x-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-sm font-medium transition-colors duration-200"
+        >
+          <Eye size={16} />
+          <span>Read Experience</span>
+        </button>
+      </div>
     </div>
   </div>
 );
 
-
-// Filter Button Component
+// Filter Dropdown Component
 const FilterButton = ({ children, options, selectedValue, onSelect }) => {
   const [isOpen, setIsOpen] = useState(false);
 
@@ -36,16 +86,15 @@ const FilterButton = ({ children, options, selectedValue, onSelect }) => {
     <div className="relative">
       <button 
         onClick={() => setIsOpen(!isOpen)}
-        className="flex items-center space-x-2 px-4 py-2 bg-gray-100 rounded-lg text-gray-700 hover:bg-gray-200"
+        className="flex items-center space-x-2 px-4 py-2 bg-white border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 transition-colors duration-200"
       >
-        <span>{selectedValue || children}</span>
+        <span className="text-sm font-medium">{selectedValue || children}</span>
         <ChevronDown size={16} className={`transform transition-transform ${isOpen ? 'rotate-180' : ''}`} />
       </button>
-      
       {isOpen && (
-        <div className="absolute top-full mt-1 w-full bg-white border rounded-lg shadow-lg z-10">
+        <div className="absolute top-full mt-1 w-full bg-white border border-gray-200 rounded-lg shadow-lg z-10">
           <div 
-            className="px-4 py-2 hover:bg-gray-100 cursor-pointer text-sm"
+            className="px-4 py-2 hover:bg-gray-50 cursor-pointer text-sm border-b border-gray-100"
             onClick={() => {
               onSelect('');
               setIsOpen(false);
@@ -56,7 +105,7 @@ const FilterButton = ({ children, options, selectedValue, onSelect }) => {
           {options.map((option, index) => (
             <div
               key={index}
-              className="px-4 py-2 hover:bg-gray-100 cursor-pointer text-sm"
+              className="px-4 py-2 hover:bg-gray-50 cursor-pointer text-sm"
               onClick={() => {
                 onSelect(option);
                 setIsOpen(false);
@@ -71,127 +120,172 @@ const FilterButton = ({ children, options, selectedValue, onSelect }) => {
   );
 };
 
-// Main Component
+// Main Page Component
 const PlacementStories = () => {
   const [selectedCompany, setSelectedCompany] = useState('');
   const [selectedRole, setSelectedRole] = useState('');
   const [selectedYear, setSelectedYear] = useState('');
+  const [selectedCampus, setSelectedCampus] = useState('');
+  const [selectedType, setSelectedType] = useState('');
+  const [searchTerm, setSearchTerm] = useState('');
+  const [stories, setStories] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
 
-  const stories = [
-    {
-      type: "Placement",
-      title: "Software Engineer at TechCorp",
-      description: "A student shares their experience at TechCorp, detailing the interview process, technical challenges, and overall company culture.",
-      image: "https://lh3.googleusercontent.com/aida-public/AB6AXuDzTYRnUqcaeU51j8A47yS_2oZBGc6O6qVrqEculM1HmjdNvSxlwGX5AO25mcKOED7z-yccYzrFS_WcBXGG5TeZlghUz6aUoZGGiwli144MNrWivf5ngkhCalF8sWkBsaVCKh0V2rHDkJjP-MmLGxfPmzSWT555D9LAZH2MgYWkEiC_RlKAWHWqltEIVefOLpcHLAyyzlO5_hjBVeWCxxFAoktK5b9KfSjbZdpe3vksuG7tUpR9cjPJHf9FmT9ofgMwOg8viUOssIc",
-      ctc: "12 LPA",
-      year: "2024",
-      company: "TechCorp",
-      role: "Software Engineer"
-    },
-    {
-      type: "Internship",
-      title: "Data Analyst at DataGenius",
-      description: "An intern recounts their time at DataGenius, focusing on the projects they worked on, the skills they developed, and the mentorship they received.",
-      image: "https://lh3.googleusercontent.com/aida-public/AB6AXuADmDz44z8KCF7Q8FsQVJbwQU26afa4M8kPxxTM7oydjnwr27j-z6QZJmGokeSJ7y2mDiaaflC2LM9PI0E5ROHvSTvA2QVl_v78-6IBsGl38emxijqZyxkMOMPVP7bwQvx6CjUPpvMBiWbjKAYuaSEnyqCDnb5T89w4XCQ3clmYzU2KLXzdRg-cFLlLF5_e3cqIKPI_VtMyg96SZSAcjFWAaUEFiDuScPTtEjqEfV55oXO7yrtwUs8gtDZ-mpJr8EEI5st4eu_ifDo",
-      ctc: "8 LPA",
-      year: "2023",
-      company: "DataGenius",
-      role: "Data Analyst"
-    },
-    {
-      type: "Placement",
-      title: "Product Manager at Innovate Solutions",
-      description: "A student describes their journey to becoming a Product Manager at Innovate Solutions, highlighting the case studies, behavioral questions, and product sense evaluations.",
-      image: "https://lh3.googleusercontent.com/aida-public/AB6AXuA3kysfxhl2_cm7OAmB-PnLAKddGWQ-XUqiZvV3db8G3SzNWqDWHjLq6sj2p4FReyov59fvnMFG1lcAZpvKpWQfMbwL_TxY4mFUX2krE3gU1kSIhMaq21i6B13CXzOR4u2Ya1xtcJ1j0wlXLmGq9q_XDHkSA5BZMoYAxnhLpDmt-N88PtVX8bX3k4LQjfcXm11BIuilNEll-yrEsLV4GqgsByEOiy9nyRctfsO3v4VBgB1rACPVhi2wqY6U_dnWDez8lK9eOnhnEtM",
-      ctc: "15 LPA",
-      year: "2024",
-      company: "Innovate Solutions",
-      role: "Product Manager"
-    }
-  ];
+  // Mock data for demonstration
+  useEffect(() => {
+    const fetchStories = async () => {
+      try {
+        setLoading(true);
+        const storiesCollection = collection(db, "interviewExperiences");
+        const storiesSnapshot = await getDocs(storiesCollection);
+        const storiesData = storiesSnapshot.docs.map(doc => ({
+          id: doc.id,
+          ...doc.data()
+        }));
+        setStories(storiesData);
+      } catch (err) {
+        console.error("Error fetching stories:", err);
+        setError("Failed to load stories. Please try again later.");
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchStories();
+  }, []);
 
-  const companies = [...new Set(stories.map(story => story.company))];
-  const roles = [...new Set(stories.map(story => story.role))];
-  const years = [...new Set(stories.map(story => story.year))];
+  // Create normalized dropdown options
+  const companies = getCapitalizedOptions(stories.map((story) => story.company));
+  const roles = getCapitalizedOptions(stories.map((story) => story.role));
+  const years = getCapitalizedOptions(stories.map((story) => story.year));
+  const campusOptions = getCapitalizedOptions(stories.map((story) => story.onCampus));
+  const typeOptions = getCapitalizedOptions(stories.map((story) => story.type));
 
-  const filteredStories = stories.filter(story => {
-    return (
-      (selectedCompany === '' || story.company === selectedCompany) &&
-      (selectedRole === '' || story.role === selectedRole) &&
-      (selectedYear === '' || story.year === selectedYear)
-    );
+  // Filtering logic
+  const filteredStories = stories.filter((story) => {
+    const match = (value, selected) => selected === '' || value?.toLowerCase() === selected.toLowerCase();
+
+    const matchesCompany = match(story.company, selectedCompany);
+    const matchesRole = match(story.role, selectedRole);
+    const matchesYear = match(String(story.year), selectedYear);
+    const matchesCampus = match(story.onCampus, selectedCampus);
+    const matchesType = match(story.type, selectedType);
+    const matchesSearch =
+      searchTerm === '' ||
+      story.role?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      story.company?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      story.description?.toLowerCase().includes(searchTerm.toLowerCase());
+
+    return matchesCompany && matchesRole && matchesYear && matchesCampus && matchesType && matchesSearch;
   });
 
-  return (
-    <div className="min-h-screen bg-gray-50">
-     <Header/>
-
-      {/* Content */}
-      <div className="max-w-4xl md:max-w-screen md:px-20 mx-auto px-4 py-6 md:pt-24">
-        {/* Search Bar */}
-        <div className="relative mb-6">
-          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={20} />
-          <input
-            type="text"
-            placeholder="Search stories"
-            className="w-full max-w-md pl-10 pr-4 py-3 bg-gray-100 rounded-lg focus:ring-2 focus:ring-blue-500 focus:bg-white"
-          />
+  // Loading State
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500 mx-auto mb-4"></div>
+          <p className="text-gray-600">Loading stories...</p>
         </div>
+      </div>
+    );
+  }
 
-        {/* Filters */}
-        <div className="flex space-x-3 mb-8">
-          <FilterButton 
-            options={companies}
-            selectedValue={selectedCompany}
-            onSelect={setSelectedCompany}
+  // Error State
+  if (error) {
+    return (
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+        <div className="text-center">
+          <p className="text-red-600 mb-4">{error}</p>
+          <button 
+            onClick={() => window.location.reload()}
+            className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600"
           >
-            Company
-          </FilterButton>
-          <FilterButton 
-            options={roles}
-            selectedValue={selectedRole}
-            onSelect={setSelectedRole}
-          >
-            Role
-          </FilterButton>
-          <FilterButton 
-            options={years}
-            selectedValue={selectedYear}
-            onSelect={setSelectedYear}
-          >
-            Year
-          </FilterButton>
-        </div>
-
-        {/* Stories Section */}
-        <div className="mb-8">
-          <h2 className="text-2xl font-bold text-gray-900 mb-6"> Placement Stories</h2>
-          
-          {/* Stories Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {filteredStories.map((story, index) => (
-              <StoryCard
-                key={index}
-                type={story.type}
-                title={story.title}
-                description={story.description}
-                image={story.image}
-                ctc={story.ctc}
-                year={story.year}
-              />
-            ))}
-          </div>
-        </div>
-
-        {/* Add Story Button */}
-        <div className="flex justify-center pb-16 md:pb-0">
-          <button className="bg-blue-500 hover:bg-blue-600 text-white px-6 py-3 rounded-lg flex items-center space-x-2">
-            <Plus size={20} />
-            <span className="font-medium">Add Story</span>
+            Retry
           </button>
         </div>
       </div>
-      <Footer/>
+    );
+  }
+
+  return (
+    <div className="min-h-screen bg-gray-50">
+         <Header/>
+      <div className="max-w-7xl mx-auto px-4 py-8">
+        {/* Header */}
+     
+        <div className="text-center mb-8 pt-16">
+          <h1 className="text-3xl font-bold text-gray-900 mb-2">Interview Experiences</h1>
+          <p className="text-gray-600">Learn from others' placement journeys</p>
+        </div>
+
+        {/* Search Bar */}
+        <div className="max-w-md mx-auto mb-6">
+          <div className="relative">
+            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={20} />
+            <input
+              type="text"
+              placeholder="Search by role, company, or description..."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              className="w-full pl-10 pr-4 py-3 bg-white border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            />
+          </div>
+        </div>
+
+        {/* Filters */}
+        <div className="flex flex-wrap justify-center gap-3 mb-8">
+          <FilterButton options={companies} selectedValue={selectedCompany} onSelect={setSelectedCompany}>Company</FilterButton>
+          <FilterButton options={roles} selectedValue={selectedRole} onSelect={setSelectedRole}>Role</FilterButton>
+          <FilterButton options={years} selectedValue={selectedYear} onSelect={setSelectedYear}>Year</FilterButton>
+          <FilterButton options={campusOptions} selectedValue={selectedCampus} onSelect={setSelectedCampus}>Campus</FilterButton>
+          <FilterButton options={typeOptions} selectedValue={selectedType} onSelect={setSelectedType}>Type</FilterButton>
+        </div>
+
+        {/* Results Count */}
+        <div className="text-center mb-6">
+          <span className="text-sm text-gray-500">
+            {filteredStories.length} {filteredStories.length === 1 ? 'story' : 'stories'} found
+          </span>
+        </div>
+
+        {/* Stories Grid */}
+        {filteredStories.length > 0 ? (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+            {filteredStories.map((story) => (
+              <StoryCard key={story.id} {...story} />
+            ))}
+          </div>
+        ) : (
+          <div className="text-center py-12">
+            <p className="text-gray-500 text-lg mb-4">No stories found matching your criteria.</p>
+            <button
+              onClick={() => {
+                setSelectedCompany('');
+                setSelectedRole('');
+                setSelectedYear('');
+                setSelectedCampus('');
+                setSelectedType('');
+                setSearchTerm('');
+              }}
+              className="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 font-medium"
+            >
+              Clear Filters
+            </button>
+          </div>
+        )}
+
+        {/* Add Story Button */}
+        <div className="flex justify-center">
+          <button
+            onClick={() => window.location.href = '/placementStory'}
+            className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg flex items-center space-x-2 font-medium transition-colors duration-200"
+          >
+            <Plus size={20} />
+            <span>Share Your Experience</span>
+          </button>
+        </div>
+      </div>
     </div>
   );
 };
