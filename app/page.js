@@ -32,7 +32,7 @@ export default function Home() {
           .filter((event) => new Date(event.date) >= today)
           .sort((a, b) => new Date(a.date) - new Date(b.date));
 
-        setEvents(data.slice(0, 1)); // Show only 1 upcoming event
+        setEvents(data.slice(0, 2)); // Show only 1 upcoming event
       } catch (error) {
         console.error("Error fetching events:", error);
       }

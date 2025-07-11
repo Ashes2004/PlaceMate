@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   User,
   Building,
@@ -17,9 +17,17 @@ import { collection, addDoc } from "firebase/firestore";
 import { useRouter } from "next/navigation";
 import Header from "@/components/Header";
 
-
 export default function InterviewForm() {
-    const router = useRouter();
+  const router = useRouter();
+  const [userId , setUserId] = useState('');
+  useEffect(() => {
+    const user = localStorage.getItem("userId");
+    if (!user) {
+      router.push("/auth");
+    }else{
+       setUserId(user);
+    }
+  }, []);
   const [formData, setFormData] = useState({
     role: "",
     company: "",
@@ -30,6 +38,7 @@ export default function InterviewForm() {
     year: "",
     onCampus: "On Campus",
     type: "Full Time",
+    userId: userId ,
   });
 
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -73,7 +82,7 @@ export default function InterviewForm() {
 
   if (submitted) {
     setTimeout(() => {
-        router.push('/explore');
+      router.push("/explore");
     }, 1500);
     return (
       <div className="max-w-4xl mx-auto p-6">
@@ -90,9 +99,8 @@ export default function InterviewForm() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50 py-8 px-4">
-      <Header/>
+      <Header />
       <div className="max-w-4xl mx-auto ">
-        
         <div className="text-center mb-8 mt-24">
           <h1 className="text-4xl font-bold text-gray-800 mb-2">
             Share Your Interview Experience
