@@ -18,6 +18,7 @@ const AuthPage = () => {
     rollNumber: "",
     startYear: "",
     endYear: "",
+    resumeScore: 0,
     isAdmin: false,
   });
 

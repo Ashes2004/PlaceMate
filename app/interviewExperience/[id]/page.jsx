@@ -5,6 +5,7 @@ import { useParams } from "next/navigation";
 import { ArrowLeft, Building, Calendar, MapPin, Briefcase, DollarSign, User, Clock, BookOpen, Lightbulb } from "lucide-react";
 import { db } from "@/utils/firebase";
 import { doc, getDoc } from "firebase/firestore";
+import Header from "@/components/Header";
 
 // Text formatter component to handle automatic formatting
 const FormattedText = ({ text, className = "" }) => {
@@ -99,10 +100,39 @@ const InterviewDetailPage = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gray-50">
-        <div className="text-center">
+      <div 
+        className="min-h-screen flex items-center justify-center relative overflow-hidden"
+        style={{
+          background: `
+            radial-gradient(circle at 20% 20%, rgba(199, 210, 254, 0.4) 0%, transparent 50%),
+            radial-gradient(circle at 80% 80%, rgba(147, 197, 253, 0.3) 0%, transparent 50%),
+            radial-gradient(circle at 40% 60%, rgba(156, 163, 175, 0.2) 0%, transparent 50%),
+            linear-gradient(135deg, 
+              rgba(248, 250, 252, 0.95) 0%,
+              rgba(241, 245, 249, 0.9) 25%,
+              rgba(226, 232, 240, 0.85) 50%,
+              rgba(203, 213, 225, 0.8) 75%,
+              rgba(148, 163, 184, 0.75) 100%
+            )
+          `,
+          backgroundAttachment: 'fixed',
+          backgroundSize: 'cover'
+        }}
+      >
+        {/* Glass overlay pattern */}
+        <div 
+          className="absolute inset-0 opacity-20"
+          style={{
+            backgroundImage: `
+              radial-gradient(circle at 1px 1px, rgba(255,255,255,0.8) 1px, transparent 0)
+            `,
+            backgroundSize: '20px 20px'
+          }}
+        />
+        
+        <div className="backdrop-blur-lg bg-white/20 rounded-2xl p-8 border border-white/30 shadow-xl text-center">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500 mx-auto mb-4"></div>
-          <p className="text-gray-600">Loading interview experience...</p>
+          <p className="text-gray-700 font-medium">Loading interview experience...</p>
         </div>
       </div>
     );
@@ -110,12 +140,41 @@ const InterviewDetailPage = () => {
 
   if (error) {
     return (
-      <div className="min-h-screen flex flex-col items-center justify-center bg-gray-50 text-center px-4">
-        <div className="bg-white rounded-lg shadow-sm p-8 max-w-md">
-          <p className="text-red-600 mb-6">{error}</p>
+      <div 
+        className="min-h-screen flex flex-col items-center justify-center text-center px-4 relative overflow-hidden"
+        style={{
+          background: `
+            radial-gradient(circle at 20% 20%, rgba(199, 210, 254, 0.4) 0%, transparent 50%),
+            radial-gradient(circle at 80% 80%, rgba(147, 197, 253, 0.3) 0%, transparent 50%),
+            radial-gradient(circle at 40% 60%, rgba(156, 163, 175, 0.2) 0%, transparent 50%),
+            linear-gradient(135deg, 
+              rgba(248, 250, 252, 0.95) 0%,
+              rgba(241, 245, 249, 0.9) 25%,
+              rgba(226, 232, 240, 0.85) 50%,
+              rgba(203, 213, 225, 0.8) 75%,
+              rgba(148, 163, 184, 0.75) 100%
+            )
+          `,
+          backgroundAttachment: 'fixed',
+          backgroundSize: 'cover'
+        }}
+      >
+        {/* Glass overlay pattern */}
+        <div 
+          className="absolute inset-0 opacity-20"
+          style={{
+            backgroundImage: `
+              radial-gradient(circle at 1px 1px, rgba(255,255,255,0.8) 1px, transparent 0)
+            `,
+            backgroundSize: '20px 20px'
+          }}
+        />
+        
+        <div className="backdrop-blur-lg bg-white/20 rounded-2xl p-8 border border-white/30 shadow-xl max-w-md">
+          <p className="text-red-600 mb-6 font-medium">{error}</p>
           <button
             onClick={() => window.history.back()}
-            className="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 font-medium"
+            className="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 font-medium transition-all duration-300 hover:scale-105 shadow-lg"
           >
             Go Back
           </button>
@@ -126,128 +185,216 @@ const InterviewDetailPage = () => {
 
   if (!experience) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gray-50">
-        <p className="text-gray-600">Experience not found.</p>
+      <div 
+        className="min-h-screen flex items-center justify-center relative overflow-hidden"
+        style={{
+          background: `
+            radial-gradient(circle at 20% 20%, rgba(199, 210, 254, 0.4) 0%, transparent 50%),
+            radial-gradient(circle at 80% 80%, rgba(147, 197, 253, 0.3) 0%, transparent 50%),
+            radial-gradient(circle at 40% 60%, rgba(156, 163, 175, 0.2) 0%, transparent 50%),
+            linear-gradient(135deg, 
+              rgba(248, 250, 252, 0.95) 0%,
+              rgba(241, 245, 249, 0.9) 25%,
+              rgba(226, 232, 240, 0.85) 50%,
+              rgba(203, 213, 225, 0.8) 75%,
+              rgba(148, 163, 184, 0.75) 100%
+            )
+          `,
+          backgroundAttachment: 'fixed',
+          backgroundSize: 'cover'
+        }}
+      >
+        {/* Glass overlay pattern */}
+        <div 
+          className="absolute inset-0 opacity-20"
+          style={{
+            backgroundImage: `
+              radial-gradient(circle at 1px 1px, rgba(255,255,255,0.8) 1px, transparent 0)
+            `,
+            backgroundSize: '20px 20px'
+          }}
+        />
+        
+        <div className="backdrop-blur-lg bg-white/20 rounded-2xl p-8 border border-white/30 shadow-xl">
+          <p className="text-gray-700 font-medium">Experience not found.</p>
+        </div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <div className="max-w-4xl mx-auto px-6 py-8">
-        {/* Back Button */}
-        <button
-          onClick={() => window.history.back()}
-          className="flex items-center text-blue-600 hover:text-blue-700 mb-8 font-medium transition-colors duration-200"
-        >
-          <ArrowLeft size={20} className="mr-2" />
-          Back to Experiences
-        </button>
+    <div 
+      className="min-h-screen relative overflow-hidden"
+      style={{
+        background: `
+          radial-gradient(circle at 20% 20%, rgba(199, 210, 254, 0.4) 0%, transparent 50%),
+          radial-gradient(circle at 80% 80%, rgba(147, 197, 253, 0.3) 0%, transparent 50%),
+          radial-gradient(circle at 40% 60%, rgba(156, 163, 175, 0.2) 0%, transparent 50%),
+          linear-gradient(135deg, 
+            rgba(248, 250, 252, 0.95) 0%,
+            rgba(241, 245, 249, 0.9) 25%,
+            rgba(226, 232, 240, 0.85) 50%,
+            rgba(203, 213, 225, 0.8) 75%,
+            rgba(148, 163, 184, 0.75) 100%
+          )
+        `,
+       
+       
+      }}
+    >
+      <Header/>
+      {/* Glass overlay pattern */}
+      <div 
+        className="absolute inset-0 opacity-20 "
+        style={{
+          backgroundImage: `
+            radial-gradient(circle at 1px 1px, rgba(255,255,255,0.8) 1px, transparent 0)
+          `,
+          backgroundSize: '20px 20px'
+        }}
+      />
+      
+      <div className="max-w-4xl mx-auto px-6 py-8 relative z-10 pt-24">
+        {/* Back Button - Glass Style */}
+        <div className="mb-8">
+          <button
+            onClick={() => window.history.back()}
+            className="flex items-center backdrop-blur-lg bg-white/20 hover:bg-white/30 text-gray-800 hover:text-blue-600 px-6 py-3 rounded-xl font-medium transition-all duration-300 hover:scale-105 border border-white/30 shadow-lg"
+          >
+            <ArrowLeft size={20} className="mr-2" />
+            Back to Experiences
+          </button>
+        </div>
 
-        {/* Header Card */}
-        <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-8 mb-8">
+        {/* Header Card - Premium Glass */}
+        <div className="backdrop-blur-lg bg-white/20 rounded-2xl border border-white/30 shadow-xl p-8 mb-8 hover:shadow-2xl transition-all duration-300">
           <div className="flex items-start justify-between mb-6">
-            <div>
-              <h1 className="text-3xl font-bold text-gray-900 mb-2">
+            <div className="flex-1">
+              <h1 className="text-3xl font-bold text-gray-900 mb-3 leading-tight">
                 {experience.role}
               </h1>
-              <p className="text-xl text-gray-600 flex items-center">
-                <Building size={20} className="mr-2" />
-                {experience.company}
-              </p>
+              <div className="flex items-center text-xl text-gray-700 mb-2">
+                <div className="p-2 bg-blue-100/50 rounded-lg mr-3">
+                  <Building size={20} className="text-blue-600" />
+                </div>
+                <span className="font-medium">{experience.company}</span>
+              </div>
             </div>
-            <span className="bg-blue-100 text-blue-700 text-sm font-medium px-4 py-2 rounded-full">
-              {experience.type}
-            </span>
+            <div className="ml-4">
+              <span className="bg-gradient-to-r from-blue-500 to-blue-600 text-white text-sm font-medium px-4 py-2 rounded-full shadow-lg">
+                {experience.type}
+              </span>
+            </div>
           </div>
 
-          {/* Quick Info Grid */}
+          {/* Quick Info Grid - Enhanced Glass Cards */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div className="flex items-center space-x-3">
-              <div className="p-2 bg-green-100 rounded-lg">
-                <DollarSign size={20} className="text-green-600" />
-              </div>
-              <div>
-                <p className="text-sm text-gray-500">Package</p>
-                <p className="font-semibold text-gray-900">{experience.ctc || "Not specified"}</p>
-              </div>
-            </div>
-            
-            <div className="flex items-center space-x-3">
-              <div className="p-2 bg-blue-100 rounded-lg">
-                <Calendar size={20} className="text-blue-600" />
-              </div>
-              <div>
-                <p className="text-sm text-gray-500">Year</p>
-                <p className="font-semibold text-gray-900">{experience.year}</p>
+            <div className="backdrop-blur-sm bg-white/30 rounded-xl p-4 border border-white/40 shadow-md hover:shadow-lg transition-all duration-300 hover:scale-105">
+              <div className="flex items-center space-x-3">
+                <div className="p-3 bg-gradient-to-br from-green-400 to-green-500 rounded-xl shadow-md">
+                  <DollarSign size={20} className="text-white" />
+                </div>
+                <div>
+                  <p className="text-sm text-gray-600 font-medium">Package</p>
+                  <p className="font-bold text-gray-900 text-lg">{experience.ctc || "Not specified"}</p>
+                </div>
               </div>
             </div>
             
-            <div className="flex items-center space-x-3">
-              <div className="p-2 bg-purple-100 rounded-lg">
-                <MapPin size={20} className="text-purple-600" />
+            <div className="backdrop-blur-sm bg-white/30 rounded-xl p-4 border border-white/40 shadow-md hover:shadow-lg transition-all duration-300 hover:scale-105">
+              <div className="flex items-center space-x-3">
+                <div className="p-3 bg-gradient-to-br from-blue-400 to-blue-500 rounded-xl shadow-md">
+                  <Calendar size={20} className="text-white" />
+                </div>
+                <div>
+                  <p className="text-sm text-gray-600 font-medium">Year</p>
+                  <p className="font-bold text-gray-900 text-lg">{experience.year}</p>
+                </div>
               </div>
-              <div>
-                <p className="text-sm text-gray-500">Campus</p>
-                <p className="font-semibold text-gray-900">{experience.onCampus}</p>
+            </div>
+            
+            <div className="backdrop-blur-sm bg-white/30 rounded-xl p-4 border border-white/40 shadow-md hover:shadow-lg transition-all duration-300 hover:scale-105">
+              <div className="flex items-center space-x-3">
+                <div className="p-3 bg-gradient-to-br from-purple-400 to-purple-500 rounded-xl shadow-md">
+                  <MapPin size={20} className="text-white" />
+                </div>
+                <div>
+                  <p className="text-sm text-gray-600 font-medium">Campus</p>
+                  <p className="font-bold text-gray-900 text-lg">{experience.onCampus}</p>
+                </div>
               </div>
             </div>
           </div>
         </div>
 
-        {/* Description Section */}
+        {/* Description Section - Glass Card */}
         {experience.description && (
-          <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-8 mb-8">
-            <div className="flex items-center mb-4">
-              <div className="p-2 bg-gray-100 rounded-lg mr-3">
-                <BookOpen size={20} className="text-gray-600" />
+          <div className="backdrop-blur-lg bg-white/20 rounded-2xl border border-white/30 shadow-xl p-8 mb-8 hover:shadow-2xl transition-all duration-300">
+            <div className="flex items-center mb-6">
+              <div className="p-3 bg-gradient-to-br from-gray-400 to-gray-500 rounded-xl shadow-md mr-4">
+                <BookOpen size={24} className="text-white" />
               </div>
-              <h2 className="text-2xl font-semibold text-gray-900">About the Role</h2>
+              <div>
+                <h2 className="text-2xl font-bold text-gray-900">About the Role</h2>
+                <div className="w-16 h-1 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full mt-2"></div>
+              </div>
             </div>
-            <FormattedText 
-              text={experience.description} 
-              className="text-gray-700 leading-relaxed"
-            />
+            <div className="backdrop-blur-sm bg-white/10 rounded-xl p-6 border border-white/20">
+              <FormattedText 
+                text={experience.description} 
+                className="text-gray-800 leading-relaxed"
+              />
+            </div>
           </div>
         )}
 
-        {/* Interview Experience Section */}
+        {/* Interview Experience Section - Glass Card */}
         {experience.interviewExperience && (
-          <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-8 mb-8">
-            <div className="flex items-center mb-4">
-              <div className="p-2 bg-orange-100 rounded-lg mr-3">
-                <User size={20} className="text-orange-600" />
+          <div className="backdrop-blur-lg bg-white/20 rounded-2xl border border-white/30 shadow-xl p-8 mb-8 hover:shadow-2xl transition-all duration-300">
+            <div className="flex items-center mb-6">
+              <div className="p-3 bg-gradient-to-br from-orange-400 to-orange-500 rounded-xl shadow-md mr-4">
+                <User size={24} className="text-white" />
               </div>
-              <h2 className="text-2xl font-semibold text-gray-900">Interview Experience</h2>
+              <div>
+                <h2 className="text-2xl font-bold text-gray-900">Interview Experience</h2>
+                <div className="w-16 h-1 bg-gradient-to-r from-orange-500 to-red-500 rounded-full mt-2"></div>
+              </div>
             </div>
-            <FormattedText 
-              text={experience.interviewExperience} 
-              className="text-gray-700 leading-relaxed"
-            />
+            <div className="backdrop-blur-sm bg-white/10 rounded-xl p-6 border border-white/20">
+              <FormattedText 
+                text={experience.interviewExperience} 
+                className="text-gray-800 leading-relaxed"
+              />
+            </div>
           </div>
         )}
 
-        {/* Tips Section */}
+        {/* Tips Section - Glass Card */}
         {experience.tips && (
-          <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-8 mb-8">
-            <div className="flex items-center mb-4">
-              <div className="p-2 bg-yellow-100 rounded-lg mr-3">
-                <Lightbulb size={20} className="text-yellow-600" />
+          <div className="backdrop-blur-lg bg-white/20 rounded-2xl border border-white/30 shadow-xl p-8 mb-8 hover:shadow-2xl transition-all duration-300">
+            <div className="flex items-center mb-6">
+              <div className="p-3 bg-gradient-to-br from-yellow-400 to-yellow-500 rounded-xl shadow-md mr-4">
+                <Lightbulb size={24} className="text-white" />
               </div>
-              <h2 className="text-2xl font-semibold text-gray-900">Tips & Advice</h2>
+              <div>
+                <h2 className="text-2xl font-bold text-gray-900">Tips & Advice</h2>
+                <div className="w-16 h-1 bg-gradient-to-r from-yellow-500 to-green-500 rounded-full mt-2"></div>
+              </div>
             </div>
-            <FormattedText 
-              text={experience.tips} 
-              className="text-gray-700 leading-relaxed"
-            />
+            <div className="backdrop-blur-sm bg-white/10 rounded-xl p-6 border border-white/20">
+              <FormattedText 
+                text={experience.tips} 
+                className="text-gray-800 leading-relaxed"
+              />
+            </div>
           </div>
         )}
 
-        {/* Bottom Action */}
+        {/* Bottom Action - Glass Button */}
         <div className="text-center">
           <button
             onClick={() => window.history.back()}
-            className="px-8 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-medium transition-colors duration-200 shadow-sm"
+            className="px-8 py-4 bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white rounded-xl font-medium transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-105 backdrop-blur-sm"
           >
             Back to All Experiences
           </button>
