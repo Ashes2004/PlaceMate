@@ -2,7 +2,7 @@
 import Header from "@/components/Header";
 import React, { useState, useEffect } from "react";
 import { db } from "@/utils/firebase";
-import { collection, getDocs, query, orderBy, doc, updateDoc, deleteDoc } from "firebase/firestore";
+import { collection, getDocs, query, orderBy, doc, updateDoc, deleteDoc, setDoc, getDoc } from "firebase/firestore";
 
 export default function SheetDashboard() {
   const [problems, setProblems] = useState([]);
@@ -11,11 +11,69 @@ export default function SheetDashboard() {
   const [completedProblems, setCompletedProblems] = useState(new Set());
   const [filterTopic, setFilterTopic] = useState('all');
   const [filterDifficulty, setFilterDifficulty] = useState('all');
+  const [filterStatus, setFilterStatus] = useState('all');
   const [searchTerm, setSearchTerm] = useState('');
   const [editingProblem, setEditingProblem] = useState(null);
   const [editForm, setEditForm] = useState({});
   const [updateLoading, setUpdateLoading] = useState(false);
   const [deleteLoading, setDeleteLoading] = useState(null);
+  const [userId, setUserId] = useState(null);
+  const [progressLoading, setProgressLoading] = useState(false);
+
+  // Generate or get user ID (in a real app, this would come from authentication)
+  const getUserId = () => {
+    let storedUserId = localStorage.getItem('userId');
+    if (!storedUserId) {
+      storedUserId = 'user_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+      localStorage.setItem('userId', storedUserId);
+    }
+    return storedUserId;
+  };
+
+  // Load user progress from Firebase
+  const loadUserProgress = async (userId) => {
+    try {
+      const userProgressRef = doc(db, "userProgress", userId);
+      const userProgressDoc = await getDoc(userProgressRef);
+      
+      if (userProgressDoc.exists()) {
+        const progressData = userProgressDoc.data();
+        setCompletedProblems(new Set(progressData.completedProblems || []));
+      } else {
+        // Create initial progress document
+        await setDoc(userProgressRef, {
+          completedProblems: [],
+          createdAt: new Date(),
+          updatedAt: new Date()
+        });
+      }
+    } catch (error) {
+      console.error("Error loading user progress:", error);
+    }
+  };
+
+  // Save user progress to Firebase
+  const saveUserProgress = async (userId, completedProblemsSet) => {
+    try {
+      const userProgressRef = doc(db, "userProgress", userId);
+      await updateDoc(userProgressRef, {
+        completedProblems: [...completedProblemsSet],
+        updatedAt: new Date()
+      });
+    } catch (error) {
+      console.error("Error saving user progress:", error);
+      // If document doesn't exist, create it
+      try {
+        await setDoc(userProgressRef, {
+          completedProblems: [...completedProblemsSet],
+          createdAt: new Date(),
+          updatedAt: new Date()
+        });
+      } catch (createError) {
+        console.error("Error creating user progress document:", createError);
+      }
+    }
+  };
 
   // Load problems from Firebase
   useEffect(() => {
@@ -44,19 +102,30 @@ export default function SheetDashboard() {
     loadProblems();
   }, []);
 
-  // Load admin status and completed problems from localStorage
+  // Initialize user and load progress
   useEffect(() => {
-    // Check admin status
-    const adminStatus = localStorage.getItem('userRole');
-    setIsAdmin(adminStatus === 'true');
+    const initializeUser = async () => {
+      // Get or create user ID
+      const currentUserId = getUserId();
+      setUserId(currentUserId);
 
-    // Load completed problems
-    const completed = JSON.parse(localStorage.getItem('completedProblems') || '[]');
-    setCompletedProblems(new Set(completed));
+      // Check admin status (keep this from localStorage for now)
+      const adminStatus = localStorage.getItem('userRole');
+      setIsAdmin(adminStatus === 'true');
+
+      // Load user progress from database
+      await loadUserProgress(currentUserId);
+    };
+
+    initializeUser();
   }, []);
 
   // Handle problem completion toggle
-  const handleToggleCompletion = (problemId) => {
+  const handleToggleCompletion = async (problemId) => {
+    if (!userId) return;
+
+    setProgressLoading(true);
+    
     const newCompleted = new Set(completedProblems);
     
     if (newCompleted.has(problemId)) {
@@ -65,8 +134,20 @@ export default function SheetDashboard() {
       newCompleted.add(problemId);
     }
     
+    // Update local state immediately for better UX
     setCompletedProblems(newCompleted);
-    localStorage.setItem('completedProblems', JSON.stringify([...newCompleted]));
+    
+    // Save to database
+    try {
+      await saveUserProgress(userId, newCompleted);
+    } catch (error) {
+      console.error("Error saving progress:", error);
+      // Revert local state if save failed
+      setCompletedProblems(completedProblems);
+      alert('Failed to save progress. Please try again.');
+    } finally {
+      setProgressLoading(false);
+    }
   };
 
   // Handle problem update
@@ -102,8 +183,6 @@ export default function SheetDashboard() {
 
   // Handle problem deletion
   const handleDeleteProblem = async (problemId) => {
-    // if (!confirm('Are you sure you want to delete this problem?')) return;
-
     setDeleteLoading(problemId);
     try {
       await deleteDoc(doc(db, "dsaProblems", problemId));
@@ -111,11 +190,13 @@ export default function SheetDashboard() {
       // Update local state
       setProblems(problems.filter(p => p.id !== problemId));
       
-      // Remove from completed if it was completed
-      const newCompleted = new Set(completedProblems);
-      newCompleted.delete(problemId);
-      setCompletedProblems(newCompleted);
-      localStorage.setItem('completedProblems', JSON.stringify([...newCompleted]));
+      // Remove from completed if it was completed and update database
+      if (completedProblems.has(problemId)) {
+        const newCompleted = new Set(completedProblems);
+        newCompleted.delete(problemId);
+        setCompletedProblems(newCompleted);
+        await saveUserProgress(userId, newCompleted);
+      }
       
       alert('Problem deleted successfully!');
     } catch (error) {
@@ -153,8 +234,11 @@ export default function SheetDashboard() {
                          problem.topic.toLowerCase().includes(searchTerm.toLowerCase());
     const matchesTopic = filterTopic === 'all' || problem.topic === filterTopic;
     const matchesDifficulty = filterDifficulty === 'all' || problem.difficulty === filterDifficulty;
+    const matchesStatus = filterStatus === 'all' || 
+                         (filterStatus === 'solved' && completedProblems.has(problem.id)) ||
+                         (filterStatus === 'unsolved' && !completedProblems.has(problem.id));
     
-    return matchesSearch && matchesTopic && matchesDifficulty;
+    return matchesSearch && matchesTopic && matchesDifficulty && matchesStatus;
   });
 
   // Calculate progress stats
@@ -237,6 +321,7 @@ export default function SheetDashboard() {
               <div className="w-3 h-3 bg-blue-500 rounded-full animate-pulse"></div>
             </div>
             <p className="text-gray-600 text-sm">Track your Data Structures & Algorithms progress</p>
+            
           </div>
         </div>
 
@@ -245,6 +330,7 @@ export default function SheetDashboard() {
           <div className="flex items-center justify-between mb-4">
             <h2 className="text-xl font-semibold text-gray-800 flex items-center gap-2">
               <span>📊</span> Your Progress
+              {progressLoading && <span className="text-sm text-blue-600">Saving...</span>}
             </h2>
             <div className="text-2xl font-bold text-blue-600">
               {completedCount}/{totalProblems} ({progressPercentage}%)
@@ -280,7 +366,7 @@ export default function SheetDashboard() {
 
         {/* Filters */}
         <div className="mb-8 backdrop-blur-lg bg-white/20 rounded-2xl p-6 border border-white/30 shadow-xl">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
             <div className="space-y-2">
               <label className="block text-sm font-medium text-gray-700">🔍 Search</label>
               <input
@@ -319,6 +405,19 @@ export default function SheetDashboard() {
                 <option value="Hard">Hard</option>
               </select>
             </div>
+            
+            <div className="space-y-2">
+              <label className="block text-sm font-medium text-gray-700">✅ Status</label>
+              <select
+                value={filterStatus}
+                onChange={(e) => setFilterStatus(e.target.value)}
+                className="w-full px-4 py-2 backdrop-blur-lg bg-white/20 border border-white/30 rounded-xl focus:ring-2 focus:ring-blue-500/50 focus:border-blue-400/50 text-gray-800"
+              >
+                <option value="all">All Problems</option>
+                <option value="solved">Solved Only</option>
+                <option value="unsolved">Unsolved Only</option>
+              </select>
+            </div>
           </div>
         </div>
 
@@ -352,11 +451,9 @@ export default function SheetDashboard() {
                             type="checkbox"
                             checked={completedProblems.has(problem.id)}
                             onChange={() => handleToggleCompletion(problem.id)}
-                            className="w-5 h-5 rounded border-2 border-white/30 text-blue-600 focus:ring-blue-500 focus:ring-2 bg-white/20"
+                            disabled={progressLoading}
+                            className="w-5 h-5 rounded border-2 border-white/30 text-blue-600 focus:ring-blue-500 focus:ring-2 bg-white/20 disabled:opacity-50"
                           />
-                          {/* <span className="ml-2 text-sm text-gray-600">
-                            {completedProblems.has(problem.id) ? '✅' : '⬜'}
-                          </span> */}
                         </label>
                       </td>
                       <td className="px-6 py-4">
@@ -499,6 +596,7 @@ export default function SheetDashboard() {
               Showing {filteredProblems.length} of {totalProblems} problems
               {filterTopic !== 'all' && ` • Topic: ${filterTopic}`}
               {filterDifficulty !== 'all' && ` • Difficulty: ${filterDifficulty}`}
+              {filterStatus !== 'all' && ` • Status: ${filterStatus === 'solved' ? 'Solved' : 'Unsolved'}`}
               {searchTerm && ` • Search: "${searchTerm}"`}
             </p>
           </div>

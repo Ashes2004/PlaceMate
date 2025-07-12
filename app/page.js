@@ -23,6 +23,7 @@ export default function Home() {
   const [events, setEvents] = useState([]);
   const [score, setScore] = useState(0);
   const [userData, setUserData] = useState({});
+  const [userId , setUserId] = useState('');
   const [dsaData, setDsaData] = useState({
     totalProblem: 0,
     solvedProblem: 0,
@@ -45,7 +46,6 @@ export default function Home() {
           orderBy("createdAt", "desc")
         );
         const querySnapshot = await getDocs(q);
-
         const problemsData = [];
         querySnapshot.forEach((doc) => {
           problemsData.push({
@@ -53,42 +53,51 @@ export default function Home() {
             ...doc.data(),
           });
         });
-        localStorage.setItem("totalDSAQuestions", problemsData.length);
+
         console.log("totalDSAQuestions", problemsData.length);
-        const solvedProblems = JSON.parse(
-          localStorage.getItem("completedProblems") || "[]"
-        );
+
+        // Get solved problems from userProgress collection
+        let solvedProblemsCount = 0;
+        if (userId) {
+          try {
+            const userProgressRef = doc(db, "userProgress", userId);
+            const userProgressDoc = await getDoc(userProgressRef);
+
+            if (userProgressDoc.exists()) {
+              const progressData = userProgressDoc.data();
+              solvedProblemsCount = progressData.completedProblems
+                ? progressData.completedProblems.length
+                : 0;
+            }
+          } catch (progressError) {
+            console.error("Error loading user progress:", progressError);
+            // Fallback to local state if Firebase fails
+            solvedProblemsCount = completedProblems.size;
+          }
+        }
 
         if (problemsData) {
           setDsaData({
             totalProblem: problemsData.length,
-            solvedProblem: solvedProblems.length,
+            solvedProblem: solvedProblemsCount,
           });
         }
 
-        console.log("solved problems: ", solvedProblems);
-
-        if (problemsData) {
-          if (solvedProblems) {
-            setDsaData({
-              totalProblem: problemsData.length,
-              solvedProblem: solvedProblems.length,
-            });
-          }
-        }
+        console.log("solved problems count: ", solvedProblemsCount);
       } catch (error) {
         console.error("Error loading problems:", error);
       }
     };
 
     loadProblems();
-  }, []);
+  }, [userId]); // Added userId as dependency
 
   useEffect(() => {
     const user = localStorage.getItem("userId");
     if (!user) {
       router.push("/auth");
     }
+    setUserId(user);
     const fetchUser = async () => {
       try {
         const docRef = doc(db, "users", user);
@@ -135,7 +144,7 @@ export default function Home() {
       const user = localStorage.getItem("userId");
       const hasUserData = Object.keys(userData).length > 0;
       const hasDsaData = dsaData.totalProblem > 0 || dsaData.solvedProblem >= 0;
-      
+
       if (user && hasUserData && hasDsaData) {
         // Add a small delay to ensure smooth transition
         setTimeout(() => {
@@ -277,10 +286,14 @@ export default function Home() {
                   Keep practicing to improve your coding skills.
                 </p>
                 <div className="mt-3 bg-gray-200 rounded-full h-2 overflow-hidden">
-                  <div 
+                  <div
                     className="bg-gradient-to-r from-green-500 to-green-600 h-full rounded-full transition-all duration-1000"
-                    style={{ 
-                      width: `${dsaData.totalProblem > 0 ? (dsaData.solvedProblem / dsaData.totalProblem) * 100 : 0}%` 
+                    style={{
+                      width: `${
+                        dsaData.totalProblem > 0
+                          ? (dsaData.solvedProblem / dsaData.totalProblem) * 100
+                          : 0
+                      }%`,
                     }}
                   ></div>
                 </div>
