@@ -211,7 +211,7 @@ export default function Home() {
         </div>
 
         {/* Welcome Section - Glass Effect */}
-        <div className="mb-6 backdrop-blur-lg bg-white/15 rounded-2xl p-6 border border-white/30 shadow-xl">
+        <div className="mb-6 backdrop-blur-lg bg-white/15 rounded-2xl p-6 border border-white/30 shadow-xl hidden md:block">
           <h2 className="text-2xl font-semibold text-gray-800 mb-2">
             Welcome back, {userData?.name || ""}
           </h2>
