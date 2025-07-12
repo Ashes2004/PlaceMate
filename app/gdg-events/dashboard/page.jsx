@@ -4,11 +4,19 @@ import { db } from "@/utils/firebase";
 import { collection, getDocs } from "firebase/firestore";
 import { Calendar, MapPin, Clock, Users, Star, ChevronRight } from "lucide-react";
 import Header from "@/components/Header";
+import Link from "next/link";
 
 export default function GDGEvents() {
   const [events, setEvents] = useState([]);
   const [loading, setLoading] = useState(true);
-
+  const [isAdmin , setIsAdmin] = useState(false);
+  useEffect(()=>{
+   const admin = localStorage.getItem('userRole');
+   if(admin)
+   {
+    setIsAdmin(true);
+   }
+  },[]);
   useEffect(() => {
     const fetchEvents = async () => {
       const snapshot = await getDocs(collection(db, "gdgEvents"));
@@ -63,10 +71,16 @@ export default function GDGEvents() {
               <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-purple-600 rounded-2xl flex items-center justify-center shadow-lg">
                 <span className="text-white text-2xl">🚀</span>
               </div>
-              <h1 className="text-4xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+              <h1 className="text-4xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent ">
                 GDG Events Hub
               </h1>
+              
             </div>
+            {isAdmin && (
+                <Link href = "/gdg-events/add" className="bg-gradient-to-r from-blue-600 to-purple-600 px-4 py-2 rounded-2xl float-right text-white hover:scale-105 transition-all duration-200">
+                  Add Event
+                </Link>
+              )}
             <p className="text-gray-600 text-lg max-w-2xl mx-auto">
               Connect, Learn, and Grow with Google Developer Groups. Join our vibrant community of developers and tech enthusiasts.
             </p>

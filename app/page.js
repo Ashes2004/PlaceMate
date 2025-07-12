@@ -6,21 +6,45 @@ import PlacementChatWidget from "@/components/PlacementChatWidget";
 import TipOfTheDay from "@/components/TipOfTheDay";
 import React, { useEffect, useState } from "react";
 import { db } from "@/utils/firebase";
-import { collection, getDocs } from "firebase/firestore";
+import { collection, getDocs, getDoc , doc} from "firebase/firestore";
 import { useRouter } from "next/navigation";
 
 export default function Home() {
   const router = useRouter();
   const [events, setEvents] = useState([]);
   const [score, setScore] = useState(0);
-  
+  const [userData , setUserData] = useState({});
   useEffect(() => {
     const resumeScore = localStorage.getItem("ResumeScore");
     if (resumeScore) {
       setScore(resumeScore);
     }
   }, []);
-  
+
+  useEffect(() => {
+    const user = localStorage.getItem("userId");
+    if (!user) {
+      router.push("/auth");
+    }
+    const fetchUser = async () => {
+      try {
+        const docRef = doc(db, "users", user);
+        const docSnap = await getDoc(docRef);
+
+        if (docSnap.exists()) {
+          console.log(docSnap.data());
+          setUserData(docSnap.data());
+           localStorage.setItem("userRole", docSnap.data().isAdmin);
+        } else {
+          setError("Experience not found.");
+        }
+      } catch (err) {
+        console.error("Error fetching interview experience:", err);
+      }
+    };
+   user &&  fetchUser();
+  }, []);
+
   useEffect(() => {
     const fetchEvents = async () => {
       try {
@@ -57,46 +81,43 @@ export default function Home() {
             rgba(148, 163, 184, 0.75) 100%
           )
         `,
-        backgroundAttachment: 'fixed',
-        backgroundSize: 'cover'
+        backgroundAttachment: "fixed",
+        backgroundSize: "cover",
       }}
     >
       {/* Glass overlay pattern */}
-      <div 
+      <div
         className="absolute inset-0 opacity-20"
         style={{
           backgroundImage: `
             radial-gradient(circle at 1px 1px, rgba(255,255,255,0.8) 1px, transparent 0)
           `,
-          backgroundSize: '20px 20px'
+          backgroundSize: "20px 20px",
         }}
       />
-      
-      <Header />
-      
-      {/* Mobile Title with Glass Effect */}
-      <div className="md:hidden px-2 py-3">
-        <h1 className="text-2xl font-bold backdrop-blur-sm bg-white/20 rounded-lg p-3 mx-2 border border-white/30 shadow-lg">
-          Place<span className="text-blue-600">Mate</span>
-        </h1>
-      </div>
 
-      <section className="p-6 md:p-12 md:mt-10 max-w-6xl mx-auto relative z-10">
+      <Header />
+
+     
+
+      <section className="p-6 md:p-24 pt-24 md:mt-10 max-w-6xl mx-auto relative z-10">
         {/* User Info Mobile - Glass Card */}
         <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-6 md:hidden">
           <div className="backdrop-blur-lg bg-white/20 rounded-2xl p-4 border border-white/30 shadow-xl">
             <div className="flex items-center gap-4">
               <div className="relative">
                 <img
-                  src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=400&q=80"
+                  src="https://static.vecteezy.com/system/resources/previews/027/951/137/non_2x/stylish-spectacles-guy-3d-avatar-character-illustrations-png.png"
                   alt="User Avatar"
                   className="w-20 h-20 rounded-full object-cover border-2 border-white/40 shadow-lg"
                 />
                 <div className="absolute -bottom-1 -right-1 w-6 h-6 bg-green-500 rounded-full border-2 border-white shadow-sm"></div>
               </div>
               <div>
-                <h1 className="text-2xl font-bold text-gray-800">Ethan Carter</h1>
-                <p className="text-blue-600 font-medium">Computer Science</p>
+                <h1 className="text-2xl font-bold text-gray-800">
+                  {userData?.name || ''}
+                </h1>
+                <p className="text-blue-600 font-medium">{userData?.department}</p>
               </div>
             </div>
           </div>
@@ -104,8 +125,12 @@ export default function Home() {
 
         {/* Welcome Section - Glass Effect */}
         <div className="mb-6 backdrop-blur-lg bg-white/15 rounded-2xl p-6 border border-white/30 shadow-xl">
-          <h2 className="text-2xl font-semibold text-gray-800 mb-2">Welcome back, Ethan</h2>
-          <p className="text-gray-600">Ready to accelerate your placement journey?</p>
+          <h2 className="text-2xl font-semibold text-gray-800 mb-2">
+            Welcome back, {userData?.name || ''}
+          </h2>
+          <p className="text-gray-600">
+            Ready to accelerate your placement journey?
+          </p>
         </div>
 
         {/* Resume & Coding Cards - Premium Glass */}
@@ -118,12 +143,14 @@ export default function Home() {
                   <div className="w-2 h-2 bg-blue-500 rounded-full animate-pulse"></div>
                   <p className="text-blue-600 font-semibold">Resume Score</p>
                 </div>
-                <h3 className="text-2xl font-bold text-gray-800 mb-2">{score}/100</h3>
+                <h3 className="text-2xl font-bold text-gray-800 mb-2">
+                  {score}/100
+                </h3>
                 <p className="text-gray-600 text-sm leading-relaxed">
                   Your resume is well-structured but needs more impact.
                 </p>
                 <div className="mt-3 bg-gray-200 rounded-full h-2 overflow-hidden">
-                  <div 
+                  <div
                     className="bg-gradient-to-r from-blue-500 to-blue-600 h-full rounded-full transition-all duration-1000"
                     style={{ width: `${score}%` }}
                   ></div>
@@ -152,9 +179,13 @@ export default function Home() {
               <div className="flex-1 pr-4">
                 <div className="flex items-center gap-2 mb-2">
                   <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
-                  <p className="text-green-600 font-semibold">Coding Challenges</p>
+                  <p className="text-green-600 font-semibold">
+                    Coding Challenges
+                  </p>
                 </div>
-                <h3 className="text-2xl font-bold text-gray-800 mb-2">3/5 Completed</h3>
+                <h3 className="text-2xl font-bold text-gray-800 mb-2">
+                  3/5 Completed
+                </h3>
                 <p className="text-gray-600 text-sm leading-relaxed">
                   Keep practicing to improve your coding skills.
                 </p>
@@ -204,7 +235,9 @@ export default function Home() {
                       }
                     />
                     <div className="flex-1">
-                      <h4 className="text-lg font-semibold text-gray-800">{event.title}</h4>
+                      <h4 className="text-lg font-semibold text-gray-800">
+                        {event.title}
+                      </h4>
                       <p className="text-sm text-gray-600 mt-1 line-clamp-2">
                         {event.description}
                       </p>
@@ -251,10 +284,30 @@ export default function Home() {
             </h3>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
               {[
-                { label: "Placement Insights", icon: "💼", link: "/explore", color: "blue" },
-                { label: "Resume Reviewer", icon: "📄", link: "/resumeReview", color: "green" },
-                { label: "Coding Challenges", icon: "</>", link: "/", color: "purple" },
-                { label: "Interview Prep", icon: "📺", link: "/", color: "orange" },
+                {
+                  label: "Placement Insights",
+                  icon: "💼",
+                  link: "/explore",
+                  color: "blue",
+                },
+                {
+                  label: "Resume Reviewer",
+                  icon: "📄",
+                  link: "/resumeReview",
+                  color: "green",
+                },
+                {
+                  label: "Coding Challenges",
+                  icon: "</>",
+                  link: "/",
+                  color: "purple",
+                },
+                {
+                  label: "Interview Prep",
+                  icon: "📺",
+                  link: "/",
+                  color: "orange",
+                },
               ].map((item, index) => (
                 <div
                   key={index}
@@ -267,7 +320,9 @@ export default function Home() {
                   <p className="text-sm font-medium text-gray-800 group-hover:text-gray-900">
                     {item.label}
                   </p>
-                  <div className={`mt-2 h-1 bg-${item.color}-500 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300`}></div>
+                  <div
+                    className={`mt-2 h-1 bg-${item.color}-500 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300`}
+                  ></div>
                 </div>
               ))}
             </div>

@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Eye, EyeOff, MapPin, Users, Building, Calendar } from "lucide-react";
 
 import {
@@ -10,12 +10,13 @@ import {
 import { doc, setDoc } from "firebase/firestore";
 
 import { auth, db } from "@/utils/firebase";
-
+import { useRouter } from "next/navigation";
 const AuthPage = () => {
   const [isSignUp, setIsSignUp] = useState(false);
   const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [formData, setFormData] = useState({
+    name: "",
     email: "",
     password: "",
     department: "",
@@ -23,7 +24,7 @@ const AuthPage = () => {
     startYear: "",
     endYear: "",
   });
-
+  const router = useRouter();
   const [error, setError] = useState(null);
 
   const handleChange = (e) => {
@@ -31,6 +32,12 @@ const AuthPage = () => {
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
+  useEffect(() => {
+    const user = localStorage.getItem("userId");
+    if (user) {
+      router.push("/");
+    }
+  }, []);
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -51,6 +58,7 @@ const AuthPage = () => {
         const user = userCred.user;
 
         const profile = {
+          name: formData.name,
           email: formData.email,
 
           department: formData.department,
@@ -68,6 +76,7 @@ const AuthPage = () => {
 
         await setDoc(doc(db, "users", user.uid), profile);
         localStorage.setItem("userId", user.uid);
+       
         alert("Account created successfully!");
       } else {
         const userCredential = await signInWithEmailAndPassword(
@@ -79,6 +88,8 @@ const AuthPage = () => {
 
         alert("Login successful!");
       }
+
+      router.push("/");
     } catch (err) {
       setError(err.message || "Something went wrong!");
     } finally {
@@ -244,6 +255,20 @@ const AuthPage = () => {
               {/* Sign Up Only Fields */}
               {isSignUp && (
                 <>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                      Name
+                    </label>
+                    <input
+                      type="text"
+                      name="name"
+                      required
+                      className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors"
+                      placeholder="e.g., Ashes Das"
+                      value={formData.name}
+                      onChange={handleChange}
+                    />
+                  </div>
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-2">
                       Department
