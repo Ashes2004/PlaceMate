@@ -23,6 +23,7 @@ export default function SheetDashboard() {
       try {
         const q = query(collection(db, "dsaProblems"), orderBy("createdAt", "desc"));
         const querySnapshot = await getDocs(q);
+        console.log("query: " , querySnapshot);
         
         const problemsData = [];
         querySnapshot.forEach((doc) => {
@@ -364,7 +365,7 @@ export default function SheetDashboard() {
                             type="text"
                             value={editForm.problemTitle}
                             onChange={(e) => setEditForm({...editForm, problemTitle: e.target.value})}
-                            className="w-full px-3 py-1 backdrop-blur-lg bg-white/20 border border-white/30 rounded-lg text-sm"
+                            className="w-full px-2 py-1 backdrop-blur-lg bg-white/20 border border-white/30 rounded-lg text-sm"
                           />
                         ) : (
                           <div className="font-medium text-gray-800">{problem.problemTitle}</div>
@@ -379,7 +380,7 @@ export default function SheetDashboard() {
                             className="w-full px-3 py-1 backdrop-blur-lg bg-white/20 border border-white/30 rounded-lg text-sm"
                           />
                         ) : (
-                          <span className="px-3 py-1 text-sm bg-blue-100/50 text-blue-700 rounded-full">
+                          <span className="px-2 py-1 text-sm bg-blue-100/50 text-blue-700 rounded-full">
                             {problem.topic}
                           </span>
                         )}
@@ -396,7 +397,7 @@ export default function SheetDashboard() {
                             <option value="Hard">Hard</option>
                           </select>
                         ) : (
-                          <span className={`px-3 py-1 text-sm rounded-full ${getDifficultyColor(problem.difficulty)}`}>
+                          <span className={`px-2 py-1 text-sm rounded-full ${getDifficultyColor(problem.difficulty)}`}>
                             {getDifficultyIcon(problem.difficulty)} {problem.difficulty}
                           </span>
                         )}
