@@ -4,21 +4,84 @@ import Footer from "@/components/Footer";
 import Header from "@/components/Header";
 import PlacementChatWidget from "@/components/PlacementChatWidget";
 import TipOfTheDay from "@/components/TipOfTheDay";
+import DashboardSkeleton from "@/components/homeLoader";
 import React, { useEffect, useState } from "react";
 import { db } from "@/utils/firebase";
-import { collection, getDocs, getDoc , doc} from "firebase/firestore";
+import {
+  collection,
+  getDocs,
+  getDoc,
+  doc,
+  query,
+  orderBy,
+} from "firebase/firestore";
+
 import { useRouter } from "next/navigation";
 
 export default function Home() {
   const router = useRouter();
   const [events, setEvents] = useState([]);
   const [score, setScore] = useState(0);
-  const [userData , setUserData] = useState({});
+  const [userData, setUserData] = useState({});
+  const [dsaData, setDsaData] = useState({
+    totalProblem: 0,
+    solvedProblem: 0,
+  });
+  const [isLoading, setIsLoading] = useState(true);
+
   useEffect(() => {
     const resumeScore = localStorage.getItem("ResumeScore");
     if (resumeScore) {
       setScore(resumeScore);
     }
+  }, []);
+
+  // Load problems from Firebase
+  useEffect(() => {
+    const loadProblems = async () => {
+      try {
+        const q = query(
+          collection(db, "dsaProblems"),
+          orderBy("createdAt", "desc")
+        );
+        const querySnapshot = await getDocs(q);
+
+        const problemsData = [];
+        querySnapshot.forEach((doc) => {
+          problemsData.push({
+            id: doc.id,
+            ...doc.data(),
+          });
+        });
+        localStorage.setItem("totalDSAQuestions", problemsData.length);
+        console.log("totalDSAQuestions", problemsData.length);
+        const solvedProblems = JSON.parse(
+          localStorage.getItem("completedProblems") || "[]"
+        );
+
+        if (problemsData) {
+          setDsaData({
+            totalProblem: problemsData.length,
+            solvedProblem: solvedProblems.length,
+          });
+        }
+
+        console.log("solved problems: ", solvedProblems);
+
+        if (problemsData) {
+          if (solvedProblems) {
+            setDsaData({
+              totalProblem: problemsData.length,
+              solvedProblem: solvedProblems.length,
+            });
+          }
+        }
+      } catch (error) {
+        console.error("Error loading problems:", error);
+      }
+    };
+
+    loadProblems();
   }, []);
 
   useEffect(() => {
@@ -34,15 +97,15 @@ export default function Home() {
         if (docSnap.exists()) {
           console.log(docSnap.data());
           setUserData(docSnap.data());
-           localStorage.setItem("userRole", docSnap.data().isAdmin);
+          localStorage.setItem("userRole", docSnap.data().isAdmin);
         } else {
-          setError("Experience not found.");
+          console.error("User not found.");
         }
       } catch (err) {
-        console.error("Error fetching interview experience:", err);
+        console.error("Error fetching user data:", err);
       }
     };
-   user &&  fetchUser();
+    user && fetchUser();
   }, []);
 
   useEffect(() => {
@@ -56,7 +119,7 @@ export default function Home() {
           .filter((event) => new Date(event.date) >= today)
           .sort((a, b) => new Date(a.date) - new Date(b.date));
 
-        setEvents(data.slice(0, 2)); // Show only 1 upcoming event
+        setEvents(data.slice(0, 2)); // Show only 2 upcoming events
       } catch (error) {
         console.error("Error fetching events:", error);
       }
@@ -64,6 +127,30 @@ export default function Home() {
 
     fetchEvents();
   }, []);
+
+  // Main loading effect - waits for all data to be loaded
+  useEffect(() => {
+    const checkLoadingStatus = () => {
+      // Check if all essential data is loaded
+      const user = localStorage.getItem("userId");
+      const hasUserData = Object.keys(userData).length > 0;
+      const hasDsaData = dsaData.totalProblem > 0 || dsaData.solvedProblem >= 0;
+      
+      if (user && hasUserData && hasDsaData) {
+        // Add a small delay to ensure smooth transition
+        setTimeout(() => {
+          setIsLoading(false);
+        }, 800);
+      }
+    };
+
+    checkLoadingStatus();
+  }, [userData, dsaData]);
+
+  // Show skeleton loader while data is loading
+  if (isLoading) {
+    return <DashboardSkeleton />;
+  }
 
   return (
     <div
@@ -98,8 +185,6 @@ export default function Home() {
 
       <Header />
 
-     
-
       <section className="p-6 md:p-24 pt-24 md:mt-10 max-w-6xl mx-auto relative z-10">
         {/* User Info Mobile - Glass Card */}
         <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-6 md:hidden">
@@ -115,9 +200,11 @@ export default function Home() {
               </div>
               <div>
                 <h1 className="text-2xl font-bold text-gray-800">
-                  {userData?.name || ''}
+                  {userData?.name || ""}
                 </h1>
-                <p className="text-blue-600 font-medium">{userData?.department}</p>
+                <p className="text-blue-600 font-medium">
+                  {userData?.department}
+                </p>
               </div>
             </div>
           </div>
@@ -126,7 +213,7 @@ export default function Home() {
         {/* Welcome Section - Glass Effect */}
         <div className="mb-6 backdrop-blur-lg bg-white/15 rounded-2xl p-6 border border-white/30 shadow-xl">
           <h2 className="text-2xl font-semibold text-gray-800 mb-2">
-            Welcome back, {userData?.name || ''}
+            Welcome back, {userData?.name || ""}
           </h2>
           <p className="text-gray-600">
             Ready to accelerate your placement journey?
@@ -184,13 +271,18 @@ export default function Home() {
                   </p>
                 </div>
                 <h3 className="text-2xl font-bold text-gray-800 mb-2">
-                  3/5 Completed
+                  {dsaData.solvedProblem} / {dsaData.totalProblem}{" "}
                 </h3>
                 <p className="text-gray-600 text-sm leading-relaxed">
                   Keep practicing to improve your coding skills.
                 </p>
                 <div className="mt-3 bg-gray-200 rounded-full h-2 overflow-hidden">
-                  <div className="bg-gradient-to-r from-green-500 to-green-600 h-full rounded-full w-3/5 transition-all duration-1000"></div>
+                  <div 
+                    className="bg-gradient-to-r from-green-500 to-green-600 h-full rounded-full transition-all duration-1000"
+                    style={{ 
+                      width: `${dsaData.totalProblem > 0 ? (dsaData.solvedProblem / dsaData.totalProblem) * 100 : 0}%` 
+                    }}
+                  ></div>
                 </div>
               </div>
               <div className="relative">
@@ -204,7 +296,7 @@ export default function Home() {
                   }
                 />
                 <div className="absolute -top-2 -right-2 w-6 h-6 bg-green-500 rounded-full flex items-center justify-center">
-                  <span className="text-white text-xs font-bold">3</span>
+                  <span className="text-white text-xs font-bold">4</span>
                 </div>
               </div>
             </div>
@@ -299,7 +391,7 @@ export default function Home() {
                 {
                   label: "Coding Challenges",
                   icon: "</>",
-                  link: "/",
+                  link: "/dsaSheet/dashboard",
                   color: "purple",
                 },
                 {

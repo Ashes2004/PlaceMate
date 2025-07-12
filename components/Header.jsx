@@ -5,7 +5,7 @@ export default function Header() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
-  
+
   useEffect(() => {
     const handleScroll = () => {
       if (window.scrollY > 50) {
@@ -107,7 +107,7 @@ export default function Header() {
             <div className="absolute bottom-0 left-0 w-0 h-0.5 bg-blue-500 group-hover:w-full transition-all duration-300"></div>
           </Link>
           <Link 
-            href="/challenges" 
+            href="/dsaSheet/dashboard" 
             className={`relative px-3 py-1 rounded-xl border transition-all duration-300 hover:text-gray-900 hover:font-semibold hover:scale-105 hover:shadow-md group ${
               isScrolled 
                 ? 'bg-white/80 border-gray-200 hover:bg-white' 
@@ -261,7 +261,7 @@ export default function Header() {
               Resume
             </Link>
             <Link 
-              href="/challenges" 
+              href="/dsaSheet/dashboard" 
               onClick={closeMobileMenu}
               className="flex items-center gap-3 px-4 py-3 rounded-xl bg-white/10 border border-white/20 hover:bg-white/20 transition-all duration-300 text-gray-700 font-medium shadow-sm"
             >
