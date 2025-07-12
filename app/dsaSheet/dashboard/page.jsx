@@ -102,7 +102,7 @@ export default function SheetDashboard() {
 
   // Handle problem deletion
   const handleDeleteProblem = async (problemId) => {
-    if (!confirm('Are you sure you want to delete this problem?')) return;
+    // if (!confirm('Are you sure you want to delete this problem?')) return;
 
     setDeleteLoading(problemId);
     try {

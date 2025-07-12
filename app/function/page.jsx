@@ -5,707 +5,216 @@
 
 // const problemData = [
 //   {
-//     "problemTitle": "Find the Largest and Smallest element in an array",
-//     "topic": "Array",
-//     "link": "https://leetcode.com/problems/maximum-and-minimum-element-in-an-array/",
+//     "problemTitle": "Print numbers from 1 to N using recursion",
+//     "topic": "Recursion",
+//     "link": "https://www.geeksforgeeks.org/print-1-to-n-without-using-loops/",
 //     "difficulty": "Easy",
-//     "solutionVideoLink": "https://www.youtube.com/watch?v=UdO2NeHB46c"
+//     "solutionVideoLink": "https://www.youtube.com/watch?v=yVdKa8dnKiE"
 //   },
 //   {
-//     "problemTitle": "Reverse an array",
-//     "topic": "Array",
-//     "link": "https://leetcode.com/problems/reverse-string/",
+//     "problemTitle": "Factorial using recursion",
+//     "topic": "Recursion",
+//     "link": "https://www.geeksforgeeks.org/program-for-factorial-of-a-number/",
 //     "difficulty": "Easy",
-//     "solutionVideoLink": "https://www.youtube.com/watch?v=P68JPXtFyYg"
+//     "solutionVideoLink": "https://www.youtube.com/watch?v=k0bb7UYy0pY"
 //   },
 //   {
-//     "problemTitle": "Check if array is sorted",
-//     "topic": "Array",
-//     "link": "https://leetcode.com/problems/check-if-array-is-sorted-and-rotated/",
+//     "problemTitle": "Sum of digits using recursion",
+//     "topic": "Recursion",
+//     "link": "https://www.geeksforgeeks.org/sum-digit-number-using-recursion/",
 //     "difficulty": "Easy",
-//     "solutionVideoLink": "https://www.youtube.com/watch?v=37E9ckMDdTk"
+//     "solutionVideoLink": "https://www.youtube.com/watch?v=euaRxhkLJtc"
 //   },
 //   {
-//     "problemTitle": "Find missing number in array from 1 to n",
-//     "topic": "Array",
-//     "link": "https://leetcode.com/problems/missing-number/",
+//     "problemTitle": "Fibonacci using recursion",
+//     "topic": "Recursion",
+//     "link": "https://www.geeksforgeeks.org/program-for-nth-fibonacci-number/",
 //     "difficulty": "Easy",
-//     "solutionVideoLink": "https://www.youtube.com/watch?v=WnPLSRLSANE"
+//     "solutionVideoLink": "https://www.youtube.com/watch?v=oBt53YbR9Kk"
 //   },
 //   {
-//     "problemTitle": "Kadane's Algorithm (Maximum subarray sum)",
-//     "topic": "Array",
-//     "link": "https://leetcode.com/problems/maximum-subarray/",
+//     "problemTitle": "Power of a number using recursion",
+//     "topic": "Recursion",
+//     "link": "https://www.geeksforgeeks.org/write-a-c-program-to-calculate-powxn/",
+//     "difficulty": "Easy",
+//     "solutionVideoLink": "https://www.youtube.com/watch?v=wAyrtLAeWvI"
+//   },
+//   {
+//     "problemTitle": "Reverse a string using recursion",
+//     "topic": "Recursion",
+//     "link": "https://www.geeksforgeeks.org/reverse-a-string-using-recursion/",
+//     "difficulty": "Easy",
+//     "solutionVideoLink": "https://www.youtube.com/watch?v=HBiuaGtZzlY"
+//   },
+//   {
+//     "problemTitle": "Check palindrome using recursion",
+//     "topic": "Recursion",
+//     "link": "https://www.geeksforgeeks.org/recursive-function-check-string-palindrome/",
+//     "difficulty": "Easy",
+//     "solutionVideoLink": "https://www.youtube.com/watch?v=1xDUmJZTsOY"
+//   },
+//   {
+//     "problemTitle": "Binary search using recursion",
+//     "topic": "Recursion",
+//     "link": "https://www.geeksforgeeks.org/binary-search/",
+//     "difficulty": "Easy",
+//     "solutionVideoLink": "https://www.youtube.com/watch?v=P3YID7liBug"
+//   },
+//   {
+//     "problemTitle": "Tower of Hanoi",
+//     "topic": "Recursion",
+//     "link": "https://www.geeksforgeeks.org/c-program-for-tower-of-hanoi/",
 //     "difficulty": "Medium",
-//     "solutionVideoLink": "https://www.youtube.com/watch?v=w_KEocd__20"
+//     "solutionVideoLink": "https://www.youtube.com/watch?v=2SUvWfNJSsM"
 //   },
 //   {
-//     "problemTitle": "Move all zeros to the end",
-//     "topic": "Array",
-//     "link": "https://leetcode.com/problems/move-zeroes/",
-//     "difficulty": "Easy",
-//     "solutionVideoLink": "https://www.youtube.com/watch?v=wvcQg43_V8U"
-//   },
-//   {
-//     "problemTitle": "Remove duplicates from sorted array",
-//     "topic": "Array",
-//     "link": "https://leetcode.com/problems/remove-duplicates-from-sorted-array/",
-//     "difficulty": "Easy",
-//     "solutionVideoLink": "https://www.youtube.com/watch?v=DEJAZBq0FDA"
-//   },
-//   {
-//     "problemTitle": "Rotate array by k steps",
-//     "topic": "Array",
-//     "link": "https://leetcode.com/problems/rotate-array/",
+//     "problemTitle": "Print all subsequences of a string",
+//     "topic": "Recursion",
+//     "link": "https://www.geeksforgeeks.org/print-subsequences-string/",
 //     "difficulty": "Medium",
-//     "solutionVideoLink": "https://www.youtube.com/watch?v=BHr381Guz3Y"
+//     "solutionVideoLink": "https://www.youtube.com/watch?v=AxNNVECce8c"
 //   },
 //   {
-//     "problemTitle": "Find the duplicate number",
-//     "topic": "Array",
-//     "link": "https://leetcode.com/problems/find-the-duplicate-number/",
-//     "difficulty": "Medium",
-//     "solutionVideoLink": "https://www.youtube.com/watch?v=wjYnzkAhcNk"
-//   },
-//   {
-//     "problemTitle": "Union and intersection of two arrays",
-//     "topic": "Array",
-//     "link": "https://www.geeksforgeeks.org/union-and-intersection-of-two-sorted-arrays-2/",
-//     "difficulty": "Easy",
-//     "solutionVideoLink": "https://www.youtube.com/watch?v=5aBoRAr6CXo"
-//   },
-//   {
-//     "problemTitle": "Reverse a string",
-//     "topic": "String",
-//     "link": "https://leetcode.com/problems/reverse-string/",
-//     "difficulty": "Easy",
-//     "solutionVideoLink": "https://www.youtube.com/watch?v=P68JPXtFyYg"
-//   },
-//   {
-//     "problemTitle": "Check if string is palindrome",
-//     "topic": "String",
-//     "link": "https://leetcode.com/problems/valid-palindrome/",
-//     "difficulty": "Easy",
-//     "solutionVideoLink": "https://www.youtube.com/watch?v=jJXJ16kPFWg"
-//   },
-//   {
-//     "problemTitle": "Check if two strings are anagrams",
-//     "topic": "String",
-//     "link": "https://leetcode.com/problems/valid-anagram/",
-//     "difficulty": "Easy",
-//     "solutionVideoLink": "https://www.youtube.com/watch?v=9UtInBqnCgA"
-//   },
-//   {
-//     "problemTitle": "Longest Common Prefix",
-//     "topic": "String",
-//     "link": "https://leetcode.com/problems/longest-common-prefix/",
-//     "difficulty": "Easy",
-//     "solutionVideoLink": "https://www.youtube.com/watch?v=0sWShKIJoo4"
-//   },
-//   {
-//     "problemTitle": "Implement strstr() / substring search",
-//     "topic": "String",
-//     "link": "https://leetcode.com/problems/implement-strstr/",
-//     "difficulty": "Easy",
-//     "solutionVideoLink": "https://www.youtube.com/watch?v=GTJr8OvyEVQ"
-//   },
-//   {
-//     "problemTitle": "Count and Say",
-//     "topic": "String",
-//     "link": "https://leetcode.com/problems/count-and-say/",
-//     "difficulty": "Medium",
-//     "solutionVideoLink": "https://www.youtube.com/watch?v=4YFxPy_0kgA"
-//   },
-//   {
-//     "problemTitle": "Longest Palindromic Substring",
-//     "topic": "String",
-//     "link": "https://leetcode.com/problems/longest-palindromic-substring/",
-//     "difficulty": "Medium",
-//     "solutionVideoLink": "https://www.youtube.com/watch?v=XYQecbcd6_c"
-//   },
-//   {
-//     "problemTitle": "Remove all duplicates from a string",
-//     "topic": "String",
-//     "link": "https://leetcode.com/problems/remove-all-adjacent-duplicates-in-string/",
-//     "difficulty": "Easy",
-//     "solutionVideoLink": "https://www.youtube.com/watch?v=2D9yW7HOVtM"
-//   },
-//   {
-//     "problemTitle": "Frequency of characters",
-//     "topic": "String",
-//     "link": "https://www.geeksforgeeks.org/print-characters-frequencies-order-occurrence/",
-//     "difficulty": "Easy",
-//     "solutionVideoLink": "https://www.youtube.com/watch?v=FKl9KJLmTNs"
-//   },
-//   {
-//     "problemTitle": "String compression",
-//     "topic": "String",
-//     "link": "https://leetcode.com/problems/string-compression/",
-//     "difficulty": "Medium",
-//     "solutionVideoLink": "https://www.youtube.com/watch?v=qBr4hbYU_hI"
-//   },
-//   {
-//     "problemTitle": "Reverse a linked list",
-//     "topic": "Linked List",
-//     "link": "https://leetcode.com/problems/reverse-linked-list/",
-//     "difficulty": "Easy",
-//     "solutionVideoLink": "https://www.youtube.com/watch?v=G0_I-ZF0S38"
-//   },
-//   {
-//     "problemTitle": "Detect cycle in linked list",
-//     "topic": "Linked List",
-//     "link": "https://leetcode.com/problems/linked-list-cycle/",
-//     "difficulty": "Easy",
-//     "solutionVideoLink": "https://www.youtube.com/watch?v=gBTe7lFR3vc"
-//   },
-//   {
-//     "problemTitle": "Find middle of linked list",
-//     "topic": "Linked List",
-//     "link": "https://leetcode.com/problems/middle-of-the-linked-list/",
-//     "difficulty": "Easy",
-//     "solutionVideoLink": "https://www.youtube.com/watch?v=sGdwSH8RK-o"
-//   },
-//   {
-//     "problemTitle": "Merge two sorted linked lists",
-//     "topic": "Linked List",
-//     "link": "https://leetcode.com/problems/merge-two-sorted-lists/",
-//     "difficulty": "Easy",
-//     "solutionVideoLink": "https://www.youtube.com/watch?v=XIdigk956u0"
-//   },
-//   {
-//     "problemTitle": "Remove nth node from end",
-//     "topic": "Linked List",
-//     "link": "https://leetcode.com/problems/remove-nth-node-from-end-of-list/",
-//     "difficulty": "Medium",
-//     "solutionVideoLink": "https://www.youtube.com/watch?v=XVuQxVej6y8"
-//   },
-//   {
-//     "problemTitle": "Add two numbers represented by linked lists",
-//     "topic": "Linked List",
-//     "link": "https://leetcode.com/problems/add-two-numbers/",
-//     "difficulty": "Medium",
-//     "solutionVideoLink": "https://www.youtube.com/watch?v=wgFPrzTjm7s"
-//   },
-//   {
-//     "problemTitle": "Intersection of two linked lists",
-//     "topic": "Linked List",
-//     "link": "https://leetcode.com/problems/intersection-of-two-linked-lists/",
-//     "difficulty": "Easy",
-//     "solutionVideoLink": "https://www.youtube.com/watch?v=u4FWXfgS8jw"
-//   },
-//   {
-//     "problemTitle": "Palindrome linked list",
-//     "topic": "Linked List",
-//     "link": "https://leetcode.com/problems/palindrome-linked-list/",
-//     "difficulty": "Easy",
-//     "solutionVideoLink": "https://www.youtube.com/watch?v=yOzXms1J6Nk"
-//   },
-//   {
-//     "problemTitle": "Remove duplicates from sorted linked list",
-//     "topic": "Linked List",
-//     "link": "https://leetcode.com/problems/remove-duplicates-from-sorted-list/",
-//     "difficulty": "Easy",
-//     "solutionVideoLink": "https://www.youtube.com/watch?v=p10f-VpO4nE"
-//   },
-//   {
-//     "problemTitle": "Flatten a linked list",
-//     "topic": "Linked List",
-//     "link": "https://leetcode.com/problems/flatten-a-multilevel-doubly-linked-list/",
-//     "difficulty": "Medium",
-//     "solutionVideoLink": "https://www.youtube.com/watch?v=J_rEh9GfJ_I"
-//   },
-//   {
-//     "problemTitle": "Valid parentheses",
-//     "topic": "Stack",
-//     "link": "https://leetcode.com/problems/valid-parentheses/",
-//     "difficulty": "Easy",
-//     "solutionVideoLink": "https://www.youtube.com/watch?v=WTzjTskDFMg"
-//   },
-//   {
-//     "problemTitle": "Implement stack using arrays",
-//     "topic": "Stack",
-//     "link": "https://www.geeksforgeeks.org/stack-data-structure-introduction-program/",
-//     "difficulty": "Easy",
-//     "solutionVideoLink": "https://www.youtube.com/watch?v=GYptUgnIM_I"
-//   },
-//   {
-//     "problemTitle": "Implement stack using queues",
-//     "topic": "Stack",
-//     "link": "https://leetcode.com/problems/implement-stack-using-queues/",
-//     "difficulty": "Easy",
-//     "solutionVideoLink": "https://www.youtube.com/watch?v=jDZQKzEtbYQ"
-//   },
-//   {
-//     "problemTitle": "Next greater element",
-//     "topic": "Stack",
-//     "link": "https://leetcode.com/problems/next-greater-element-i/",
-//     "difficulty": "Easy",
-//     "solutionVideoLink": "https://www.youtube.com/watch?v=Du881K7Jtk8"
-//   },
-//   {
-//     "problemTitle": "Largest rectangle in histogram",
-//     "topic": "Stack",
-//     "link": "https://leetcode.com/problems/largest-rectangle-in-histogram/",
-//     "difficulty": "Hard",
-//     "solutionVideoLink": "https://www.youtube.com/watch?v=zx5Sw9130L0"
-//   },
-//   {
-//     "problemTitle": "Evaluate reverse polish notation",
-//     "topic": "Stack",
-//     "link": "https://leetcode.com/problems/evaluate-reverse-polish-notation/",
-//     "difficulty": "Medium",
-//     "solutionVideoLink": "https://www.youtube.com/watch?v=iu0082c4HDE"
-//   },
-//   {
-//     "problemTitle": "Min stack",
-//     "topic": "Stack",
-//     "link": "https://leetcode.com/problems/min-stack/",
-//     "difficulty": "Easy",
-//     "solutionVideoLink": "https://www.youtube.com/watch?v=WxCuL3jleUA"
-//   },
-//   {
-//     "problemTitle": "Trapping rain water",
-//     "topic": "Stack",
-//     "link": "https://leetcode.com/problems/trapping-rain-water/",
-//     "difficulty": "Hard",
-//     "solutionVideoLink": "https://www.youtube.com/watch?v=m0_oSO2LbNA"
-//   },
-//   {
-//     "problemTitle": "Balanced parentheses",
-//     "topic": "Stack",
+//     "problemTitle": "Generate parentheses",
+//     "topic": "Backtracking",
 //     "link": "https://leetcode.com/problems/generate-parentheses/",
 //     "difficulty": "Medium",
 //     "solutionVideoLink": "https://www.youtube.com/watch?v=s9fokUqJ76A"
 //   },
 //   {
-//     "problemTitle": "Infix to postfix conversion",
-//     "topic": "Stack",
-//     "link": "https://www.geeksforgeeks.org/stack-set-2-infix-to-postfix/",
-//     "difficulty": "Medium",
-//     "solutionVideoLink": "https://www.youtube.com/watch?v=PAceaOSnxQs"
-//   },
-//   {
-//     "problemTitle": "Implement queue using arrays",
-//     "topic": "Queue",
-//     "link": "https://www.geeksforgeeks.org/queue-set-1introduction-and-array-implementation/",
-//     "difficulty": "Easy",
-//     "solutionVideoLink": "https://www.youtube.com/watch?v=okr-XE8yTO8"
-//   },
-//   {
-//     "problemTitle": "Implement queue using stacks",
-//     "topic": "Queue",
-//     "link": "https://leetcode.com/problems/implement-queue-using-stacks/",
-//     "difficulty": "Easy",
-//     "solutionVideoLink": "https://www.youtube.com/watch?v=eanwa4StHgc"
-//   },
-//   {
-//     "problemTitle": "Circular queue implementation",
-//     "topic": "Queue",
-//     "link": "https://leetcode.com/problems/design-circular-queue/",
-//     "difficulty": "Medium",
-//     "solutionVideoLink": "https://www.youtube.com/watch?v=aBwNZI6vO3U"
-//   },
-//   {
-//     "problemTitle": "First non-repeating character in stream",
-//     "topic": "Queue",
-//     "link": "https://www.geeksforgeeks.org/find-first-non-repeating-character-stream-characters/",
-//     "difficulty": "Medium",
-//     "solutionVideoLink": "https://www.youtube.com/watch?v=5co5Gvp_-S0"
-//   },
-//   {
-//     "problemTitle": "Generate binary numbers from 1 to n",
-//     "topic": "Queue",
-//     "link": "https://www.geeksforgeeks.org/interesting-method-generate-binary-numbers-1-n/",
-//     "difficulty": "Easy",
-//     "solutionVideoLink": "https://www.youtube.com/watch?v=YIqkgfHJN0k"
-//   },
-//   {
-//     "problemTitle": "Level order traversal of binary tree",
-//     "topic": "Queue",
-//     "link": "https://leetcode.com/problems/binary-tree-level-order-traversal/",
-//     "difficulty": "Medium",
-//     "solutionVideoLink": "https://www.youtube.com/watch?v=6ZnyEApgFYg"
-//   },
-//   {
-//     "problemTitle": "Sliding window maximum",
-//     "topic": "Queue",
-//     "link": "https://leetcode.com/problems/sliding-window-maximum/",
+//     "problemTitle": "N-Queens problem",
+//     "topic": "Backtracking",
+//     "link": "https://leetcode.com/problems/n-queens/",
 //     "difficulty": "Hard",
-//     "solutionVideoLink": "https://www.youtube.com/watch?v=DfljaUwZsOk"
+//     "solutionVideoLink": "https://www.youtube.com/watch?v=i05Ju7AftcM"
 //   },
 //   {
-//     "problemTitle": "Queue reversal",
-//     "topic": "Queue",
-//     "link": "https://www.geeksforgeeks.org/reversing-a-queue/",
-//     "difficulty": "Easy",
-//     "solutionVideoLink": "https://www.youtube.com/watch?v=dLdWBY0B7Vo"
-//   },
-//   {
-//     "problemTitle": "Interleave first half of queue with second half",
-//     "topic": "Queue",
-//     "link": "https://www.geeksforgeeks.org/interleave-first-half-queue-second-half/",
-//     "difficulty": "Medium",
-//     "solutionVideoLink": "https://www.youtube.com/watch?v=QJZgJAjYKvg"
-//   },
-//   {
-//     "problemTitle": "Priority queue implementation",
-//     "topic": "Queue",
-//     "link": "https://leetcode.com/problems/kth-largest-element-in-a-stream/",
-//     "difficulty": "Easy",
-//     "solutionVideoLink": "https://www.youtube.com/watch?v=hOjcdrqMoQ8"
-//   },
-//   {
-//     "problemTitle": "Binary tree inorder traversal",
-//     "topic": "Tree",
-//     "link": "https://leetcode.com/problems/binary-tree-inorder-traversal/",
-//     "difficulty": "Easy",
-//     "solutionVideoLink": "https://www.youtube.com/watch?v=jmy0LaGET1I"
-//   },
-//   {
-//     "problemTitle": "Binary tree preorder traversal",
-//     "topic": "Tree",
-//     "link": "https://leetcode.com/problems/binary-tree-preorder-traversal/",
-//     "difficulty": "Easy",
-//     "solutionVideoLink": "https://www.youtube.com/watch?v=jmy0LaGET1I"
-//   },
-//   {
-//     "problemTitle": "Binary tree postorder traversal",
-//     "topic": "Tree",
-//     "link": "https://leetcode.com/problems/binary-tree-postorder-traversal/",
-//     "difficulty": "Easy",
-//     "solutionVideoLink": "https://www.youtube.com/watch?v=jmy0LaGET1I"
-//   },
-//   {
-//     "problemTitle": "Maximum depth of binary tree",
-//     "topic": "Tree",
-//     "link": "https://leetcode.com/problems/maximum-depth-of-binary-tree/",
-//     "difficulty": "Easy",
-//     "solutionVideoLink": "https://www.youtube.com/watch?v=hTM3phVI6YQ"
-//   },
-//   {
-//     "problemTitle": "Minimum depth of binary tree",
-//     "topic": "Tree",
-//     "link": "https://leetcode.com/problems/minimum-depth-of-binary-tree/",
-//     "difficulty": "Easy",
-//     "solutionVideoLink": "https://www.youtube.com/watch?v=QUvOkMmXQkw"
-//   },
-//   {
-//     "problemTitle": "Check if two binary trees are identical",
-//     "topic": "Tree",
-//     "link": "https://leetcode.com/problems/same-tree/",
-//     "difficulty": "Easy",
-//     "solutionVideoLink": "https://www.youtube.com/watch?v=BhPf7Zck948"
-//   },
-//   {
-//     "problemTitle": "Symmetric binary tree",
-//     "topic": "Tree",
-//     "link": "https://leetcode.com/problems/symmetric-tree/",
-//     "difficulty": "Easy",
-//     "solutionVideoLink": "https://www.youtube.com/watch?v=Mao9uzxwvmc"
-//   },
-//   {
-//     "problemTitle": "Diameter of binary tree",
-//     "topic": "Tree",
-//     "link": "https://leetcode.com/problems/diameter-of-binary-tree/",
-//     "difficulty": "Easy",
-//     "solutionVideoLink": "https://www.youtube.com/watch?v=ey7DYc9OANo"
-//   },
-//   {
-//     "problemTitle": "Path sum",
-//     "topic": "Tree",
-//     "link": "https://leetcode.com/problems/path-sum/",
-//     "difficulty": "Easy",
-//     "solutionVideoLink": "https://www.youtube.com/watch?v=LSKQyOz_P8I"
-//   },
-//   {
-//     "problemTitle": "Binary tree right side view",
-//     "topic": "Tree",
-//     "link": "https://leetcode.com/problems/binary-tree-right-side-view/",
-//     "difficulty": "Medium",
-//     "solutionVideoLink": "https://www.youtube.com/watch?v=KV4mRzTjlAk"
-//   },
-//   {
-//     "problemTitle": "Binary search",
-//     "topic": "Searching",
-//     "link": "https://leetcode.com/problems/binary-search/",
-//     "difficulty": "Easy",
-//     "solutionVideoLink": "https://www.youtube.com/watch?v=s4DPM8ct1pI"
-//   },
-//   {
-//     "problemTitle": "Find first and last position of element",
-//     "topic": "Searching",
-//     "link": "https://leetcode.com/problems/find-first-and-last-position-of-element-in-sorted-array/",
-//     "difficulty": "Medium",
-//     "solutionVideoLink": "https://www.youtube.com/watch?v=4sQL7R5ySUU"
-//   },
-//   {
-//     "problemTitle": "Search in rotated sorted array",
-//     "topic": "Searching",
-//     "link": "https://leetcode.com/problems/search-in-rotated-sorted-array/",
-//     "difficulty": "Medium",
-//     "solutionVideoLink": "https://www.youtube.com/watch?v=r3pMQ8-Ad5s"
-//   },
-//   {
-//     "problemTitle": "Find peak element",
-//     "topic": "Searching",
-//     "link": "https://leetcode.com/problems/find-peak-element/",
-//     "difficulty": "Medium",
-//     "solutionVideoLink": "https://www.youtube.com/watch?v=kMzJy9es7Hc"
-//   },
-//   {
-//     "problemTitle": "Square root of x",
-//     "topic": "Searching",
-//     "link": "https://leetcode.com/problems/sqrtx/",
-//     "difficulty": "Easy",
-//     "solutionVideoLink": "https://www.youtube.com/watch?v=1FUZw4xdxC8"
-//   },
-//   {
-//     "problemTitle": "Search a 2D matrix",
-//     "topic": "Searching",
-//     "link": "https://leetcode.com/problems/search-a-2d-matrix/",
-//     "difficulty": "Medium",
-//     "solutionVideoLink": "https://www.youtube.com/watch?v=Ber2pi2C0j0"
-//   },
-//   {
-//     "problemTitle": "Find minimum in rotated sorted array",
-//     "topic": "Searching",
-//     "link": "https://leetcode.com/problems/find-minimum-in-rotated-sorted-array/",
-//     "difficulty": "Medium",
-//     "solutionVideoLink": "https://www.youtube.com/watch?v=nIVW4P8b1VA"
-//   },
-//   {
-//     "problemTitle": "Median of two sorted arrays",
-//     "topic": "Searching",
-//     "link": "https://leetcode.com/problems/median-of-two-sorted-arrays/",
+//     "problemTitle": "Sudoku solver",
+//     "topic": "Backtracking",
+//     "link": "https://leetcode.com/problems/sudoku-solver/",
 //     "difficulty": "Hard",
-//     "solutionVideoLink": "https://www.youtube.com/watch?v=LPFhl65R7ww"
+//     "solutionVideoLink": "https://www.youtube.com/watch?v=FWAIf_EVUKE"
 //   },
 //   {
-//     "problemTitle": "Linear search",
-//     "topic": "Searching",
-//     "link": "https://www.geeksforgeeks.org/linear-search/",
-//     "difficulty": "Easy",
-//     "solutionVideoLink": "https://www.youtube.com/watch?v=C46QfTjVCNU"
-//   },
-//   {
-//     "problemTitle": "Kth largest element in array",
-//     "topic": "Searching",
-//     "link": "https://leetcode.com/problems/kth-largest-element-in-an-array/",
+//     "problemTitle": "Permutations",
+//     "topic": "Backtracking",
+//     "link": "https://leetcode.com/problems/permutations/",
 //     "difficulty": "Medium",
-//     "solutionVideoLink": "https://www.youtube.com/watch?v=3BdGzqgJZNc"
+//     "solutionVideoLink": "https://www.youtube.com/watch?v=s7AvT7cGdSo"
 //   },
 //   {
-//     "problemTitle": "Bubble sort",
-//     "topic": "Sorting",
-//     "link": "https://www.geeksforgeeks.org/bubble-sort/",
-//     "difficulty": "Easy",
-//     "solutionVideoLink": "https://www.youtube.com/watch?v=xli_FI7CuzA"
-//   },
-//   {
-//     "problemTitle": "Selection sort",
-//     "topic": "Sorting",
-//     "link": "https://www.geeksforgeeks.org/selection-sort/",
-//     "difficulty": "Easy",
-//     "solutionVideoLink": "https://www.youtube.com/watch?v=g-PGLbMth_g"
-//   },
-//   {
-//     "problemTitle": "Insertion sort",
-//     "topic": "Sorting",
-//     "link": "https://www.geeksforgeeks.org/insertion-sort/",
-//     "difficulty": "Easy",
-//     "solutionVideoLink": "https://www.youtube.com/watch?v=JU767SDMDvA"
-//   },
-//   {
-//     "problemTitle": "Merge sort",
-//     "topic": "Sorting",
-//     "link": "https://www.geeksforgeeks.org/merge-sort/",
+//     "problemTitle": "Combinations",
+//     "topic": "Backtracking",
+//     "link": "https://leetcode.com/problems/combinations/",
 //     "difficulty": "Medium",
-//     "solutionVideoLink": "https://www.youtube.com/watch?v=4VqmGXwpLqc"
+//     "solutionVideoLink": "https://www.youtube.com/watch?v=q0s6m7AiM7o"
 //   },
 //   {
-//     "problemTitle": "Quick sort",
-//     "topic": "Sorting",
-//     "link": "https://www.geeksforgeeks.org/quick-sort/",
+//     "problemTitle": "Combination sum",
+//     "topic": "Backtracking",
+//     "link": "https://leetcode.com/problems/combination-sum/",
 //     "difficulty": "Medium",
-//     "solutionVideoLink": "https://www.youtube.com/watch?v=Hoixgm4-P4M"
+//     "solutionVideoLink": "https://www.youtube.com/watch?v=GBKI9VSKdGg"
 //   },
 //   {
-//     "problemTitle": "Heap sort",
-//     "topic": "Sorting",
-//     "link": "https://www.geeksforgeeks.org/heap-sort/",
+//     "problemTitle": "Subsets",
+//     "topic": "Backtracking",
+//     "link": "https://leetcode.com/problems/subsets/",
 //     "difficulty": "Medium",
-//     "solutionVideoLink": "https://www.youtube.com/watch?v=2DmK_H7IdTo"
+//     "solutionVideoLink": "https://www.youtube.com/watch?v=REOH22Xwdkk"
 //   },
 //   {
-//     "problemTitle": "Count sort",
-//     "topic": "Sorting",
-//     "link": "https://www.geeksforgeeks.org/counting-sort/",
-//     "difficulty": "Easy",
-//     "solutionVideoLink": "https://www.youtube.com/watch?v=7zuGmKfUt7s"
-//   },
-//   {
-//     "problemTitle": "Radix sort",
-//     "topic": "Sorting",
-//     "link": "https://www.geeksforgeeks.org/radix-sort/",
+//     "problemTitle": "Word search",
+//     "topic": "Backtracking",
+//     "link": "https://leetcode.com/problems/word-search/",
 //     "difficulty": "Medium",
-//     "solutionVideoLink": "https://www.youtube.com/watch?v=XiuSW_mEn7g"
+//     "solutionVideoLink": "https://www.youtube.com/watch?v=pfiQ_PS1g8E"
 //   },
 //   {
-//     "problemTitle": "Merge two sorted arrays",
-//     "topic": "Sorting",
-//     "link": "https://leetcode.com/problems/merge-sorted-array/",
-//     "difficulty": "Easy",
-//     "solutionVideoLink": "https://www.youtube.com/watch?v=P1Ic85RarKY"
-//   },
-//   {
-//     "problemTitle": "Sort colors (Dutch flag problem)",
-//     "topic": "Sorting",
-//     "link": "https://leetcode.com/problems/sort-colors/",
+//     "problemTitle": "Palindrome partitioning",
+//     "topic": "Backtracking",
+//     "link": "https://leetcode.com/problems/palindrome-partitioning/",
 //     "difficulty": "Medium",
-//     "solutionVideoLink": "https://www.youtube.com/watch?v=4xbWSRZHqac"
+//     "solutionVideoLink": "https://www.youtube.com/watch?v=WBgsABoClE0"
 //   },
 //   {
-//     "problemTitle": "DFS traversal",
-//     "topic": "Graph",
-//     "link": "https://www.geeksforgeeks.org/depth-first-search-or-dfs-for-a-graph/",
+//     "problemTitle": "Letter combinations of phone number",
+//     "topic": "Backtracking",
+//     "link": "https://leetcode.com/problems/letter-combinations-of-a-phone-number/",
 //     "difficulty": "Medium",
-//     "solutionVideoLink": "https://www.youtube.com/watch?v=7fujbpJ0LB4"
+//     "solutionVideoLink": "https://www.youtube.com/watch?v=0snEunUacZY"
 //   },
 //   {
-//     "problemTitle": "BFS traversal",
-//     "topic": "Graph",
-//     "link": "https://www.geeksforgeeks.org/breadth-first-search-or-bfs-for-a-graph/",
+//     "problemTitle": "Rat in a maze",
+//     "topic": "Backtracking",
+//     "link": "https://www.geeksforgeeks.org/rat-in-a-maze-backtracking-2/",
 //     "difficulty": "Medium",
-//     "solutionVideoLink": "https://www.youtube.com/watch?v=oDqjPvD54Ss"
+//     "solutionVideoLink": "https://www.youtube.com/watch?v=bLGZhJlt4y0"
 //   },
 //   {
-//     "problemTitle": "Detect cycle in undirected graph",
-//     "topic": "Graph",
-//     "link": "https://www.geeksforgeeks.org/detect-cycle-undirected-graph/",
-//     "difficulty": "Medium",
-//     "solutionVideoLink": "https://www.youtube.com/watch?v=zQ3zgFypzX4"
-//   },
-//   {
-//     "problemTitle": "Detect cycle in directed graph",
-//     "topic": "Graph",
-//     "link": "https://www.geeksforgeeks.org/detect-cycle-in-a-graph/",
-//     "difficulty": "Medium",
-//     "solutionVideoLink": "https://www.youtube.com/watch?v=rKQaZuoUR4M"
-//   },
-//   {
-//     "problemTitle": "Topological sorting",
-//     "topic": "Graph",
-//     "link": "https://www.geeksforgeeks.org/topological-sorting/",
-//     "difficulty": "Medium",
-//     "solutionVideoLink": "https://www.youtube.com/watch?v=cIBFEhD77b4"
-//   },
-//   {
-//     "problemTitle": "Number of islands",
-//     "topic": "Graph",
-//     "link": "https://leetcode.com/problems/number-of-islands/",
-//     "difficulty": "Medium",
-//     "solutionVideoLink": "https://www.youtube.com/watch?v=pV2kpPD66nE"
-//   },
-//   {
-//     "problemTitle": "Clone graph",
-//     "topic": "Graph",
-//     "link": "https://leetcode.com/problems/clone-graph/",
-//     "difficulty": "Medium",
-//     "solutionVideoLink": "https://www.youtube.com/watch?v=mQeF6bN8hMk"
-//   },
-//   {
-//     "problemTitle": "Course schedule",
-//     "topic": "Graph",
-//     "link": "https://leetcode.com/problems/course-schedule/",
-//     "difficulty": "Medium",
-//     "solutionVideoLink": "https://www.youtube.com/watch?v=EgI5nU9etnU"
-//   },
-//   {
-//     "problemTitle": "Dijkstra's shortest path",
-//     "topic": "Graph",
-//     "link": "https://www.geeksforgeeks.org/dijkstras-shortest-path-algorithm-greedy-algo-7/",
-//     "difficulty": "Medium",
-//     "solutionVideoLink": "https://www.youtube.com/watch?v=pVfj6mxhdMw"
-//   },
-//   {
-//     "problemTitle": "Union Find (Disjoint Set)",
-//     "topic": "Graph",
-//     "link": "https://www.geeksforgeeks.org/union-find/",
-//     "difficulty": "Medium",
-//     "solutionVideoLink": "https://www.youtube.com/watch?v=ibjEGG7ylHk"
-//   },
-//   {
-//     "problemTitle": "Fibonacci sequence",
-//     "topic": "Dynamic Programming",
-//     "link": "https://leetcode.com/problems/fibonacci-number/",
-//     "difficulty": "Easy",
-//     "solutionVideoLink": "https://www.youtube.com/watch?v=oBt53YbR9Kk"
-//   },
-//   {
-//     "problemTitle": "Climbing stairs",
-//     "topic": "Dynamic Programming",
-//     "link": "https://leetcode.com/problems/climbing-stairs/",
-//     "difficulty": "Easy",
-//     "solutionVideoLink": "https://www.youtube.com/watch?v=Y0lT9Fck7qI"
-//   },
-//   {
-//     "problemTitle": "House robber",
-//     "topic": "Dynamic Programming",
-//     "link": "https://leetcode.com/problems/house-robber/",
-//     "difficulty": "Medium",
-//     "solutionVideoLink": "https://www.youtube.com/watch?v=xlvhyfcoQa4"
-//   },
-//   {
-//     "problemTitle": "Coin change",
-//     "topic": "Dynamic Programming",
-//     "link": "https://leetcode.com/problems/coin-change/",
-//     "difficulty": "Medium",
-//     "solutionVideoLink": "https://www.youtube.com/watch?v=H9bfqozjoqs"
-//   },
-//   {
-//     "problemTitle": "Longest increasing subsequence",
-//     "topic": "Dynamic Programming",
-//     "link": "https://leetcode.com/problems/longest-increasing-subsequence/",
-//     "difficulty": "Medium",
-//     "solutionVideoLink": "https://www.youtube.com/watch?v=cjWnW0hdF1Y"
-//   },
-//   {
-//     "problemTitle": "0/1 Knapsack problem",
-//     "topic": "Dynamic Programming",
-//     "link": "https://www.geeksforgeeks.org/0-1-knapsack-problem-dp-10/",
-//     "difficulty": "Medium",
-//     "solutionVideoLink": "https://www.youtube.com/watch?v=8LusJS5-AGo"
-//   },
-//   {
-//     "problemTitle": "Longest common subsequence",
-//     "topic": "Dynamic Programming",
-//     "link": "https://leetcode.com/problems/longest-common-subsequence/",
-//     "difficulty": "Medium",
-//     "solutionVideoLink": "https://www.youtube.com/watch?v=Ua0GhsJSlWM"
-//   },
-//   {
-//     "problemTitle": "Edit distance",
-//     "topic": "Dynamic Programming",
-//     "link": "https://leetcode.com/problems/edit-distance/",
+//     "problemTitle": "Knight's tour problem",
+//     "topic": "Backtracking",
+//     "link": "https://www.geeksforgeeks.org/the-knights-tour-problem-backtracking-1/",
 //     "difficulty": "Hard",
-//     "solutionVideoLink": "https://www.youtube.com/watch?v=XYi2-LPrwm4"
+//     "solutionVideoLink": "https://www.youtube.com/watch?v=ab_dY3dZFHM"
 //   },
 //   {
-//     "problemTitle": "Unique paths",
-//     "topic": "Dynamic Programming",
-//     "link": "https://leetcode.com/problems/unique-paths/",
-//     "difficulty": "Medium",
-//     "solutionVideoLink": "https://www.youtube.com/watch?v=IlEsdxuD4lY"
+//     "problemTitle": "M-coloring problem",
+//     "topic": "Backtracking",
+//     "link": "https://www.geeksforgeeks.org/m-coloring-problem-backtracking-5/",
+//     "difficulty": "Hard",
+//     "solutionVideoLink": "https://www.youtube.com/watch?v=052VkKhIaQ4"
 //   },
 //   {
-//     "problemTitle": "Maximum product subarray",
-//     "topic": "Dynamic Programming",
-//     "link": "https://leetcode.com/problems/maximum-product-subarray/",
+//     "problemTitle": "Hamiltonian path",
+//     "topic": "Backtracking",
+//     "link": "https://www.geeksforgeeks.org/hamiltonian-path-and-hamiltonian-circuit/",
+//     "difficulty": "Hard",
+//     "solutionVideoLink": "https://www.youtube.com/watch?v=dQr4wZCiJJ4"
+//   },
+//   {
+//     "problemTitle": "Subset sum problem",
+//     "topic": "Backtracking",
+//     "link": "https://www.geeksforgeeks.org/subset-sum-backtracking-4/",
 //     "difficulty": "Medium",
-//     "solutionVideoLink": "https://www.youtube.com/watch?v=lXVy6YWFcRM"
+//     "solutionVideoLink": "https://www.youtube.com/watch?v=kyLxTdsT8ws"
+//   },
+//   {
+//     "problemTitle": "Print all paths from source to destination",
+//     "topic": "Backtracking",
+//     "link": "https://www.geeksforgeeks.org/find-paths-given-source-destination/",
+//     "difficulty": "Medium",
+//     "solutionVideoLink": "https://www.youtube.com/watch?v=uzuFARspR6g"
+//   },
+//   {
+//     "problemTitle": "Word break II",
+//     "topic": "Backtracking",
+//     "link": "https://leetcode.com/problems/word-break-ii/",
+//     "difficulty": "Hard",
+//     "solutionVideoLink": "https://www.youtube.com/watch?v=WepWFGxiwRs"
+//   },
+//   {
+//     "problemTitle": "Restore IP addresses",
+//     "topic": "Backtracking",
+//     "link": "https://leetcode.com/problems/restore-ip-addresses/",
+//     "difficulty": "Medium",
+//     "solutionVideoLink": "https://www.youtube.com/watch?v=61tN4YEdiTM"
+//   },
+//   {
+//     "problemTitle": "Beautiful arrangement",
+//     "topic": "Backtracking",
+//     "link": "https://leetcode.com/problems/beautiful-arrangement/",
+//     "difficulty": "Medium",
+//     "solutionVideoLink": "https://www.youtube.com/watch?v=4zABVG0AoNY"
+//   },
+//   {
+//     "problemTitle": "Expression add operators",
+//     "topic": "Backtracking",
+//     "link": "https://leetcode.com/problems/expression-add-operators/",
+//     "difficulty": "Hard",
+//     "solutionVideoLink": "https://www.youtube.com/watch?v=v05R1OAUcag"
 //   }
 // ]
-
 // function Page() {
 //   const [isLoading, setIsLoading] = useState(false);
 //   const [status, setStatus] = useState('');
