@@ -12,10 +12,12 @@ export default function GDGEvents() {
   const [isAdmin , setIsAdmin] = useState(false);
   useEffect(()=>{
    const admin = localStorage.getItem('userRole');
-   if(admin)
+   if(admin == 'true')
    {
     setIsAdmin(true);
    }
+   console.log(admin);
+   
   },[]);
   useEffect(() => {
     const fetchEvents = async () => {
@@ -76,7 +78,7 @@ export default function GDGEvents() {
               </h1>
               
             </div>
-            {isAdmin && (
+            {isAdmin == true && (
                 <Link href = "/gdg-events/add" className="bg-gradient-to-r from-blue-600 to-purple-600 px-4 py-2 rounded-2xl float-right text-white hover:scale-105 transition-all duration-200">
                   Add Event
                 </Link>
